@@ -1,0 +1,26 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--semantic-space-xs);
+}
+
+.label {
+  font: var(--typography-label);
+  color: var(--semantic-color-text-muted);
+}
+
+.select {
+  padding: var(--semantic-space-sm) var(--semantic-space-md);
+  font-size: var(--semantic-font-size-body);
+  color: var(--semantic-color-text-body);
+  background-color: var(--semantic-color-surface-raised);
+  border: var(--semantic-border-width) solid var(--semantic-color-border-soft);
+  border-radius: var(--semantic-radius-md);
+  cursor: pointer;
+}
+
+.select:focus {
+  outline: 2px solid var(--semantic-color-action-primary);
+  outline-offset: 1px;
+  border-color: transparent;
+}

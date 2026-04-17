@@ -1,0 +1,67 @@
+/* Semantic tokens. These are what *.module.css files should reference —
+   never the base-* primitives directly. Add a new semantic alias when a new
+   design intent appears, not a new primitive. */
+:root {
+  /* Surfaces */
+  --semantic-color-background-primary: var(--base-color-white);
+  --semantic-color-background-secondary: var(--base-color-grey-50);
+  --semantic-color-surface-raised: var(--base-color-white);
+
+  /* Text */
+  --semantic-color-text-heading: var(--base-color-grey-800);
+  --semantic-color-text-body: var(--base-color-grey-800);
+  --semantic-color-text-muted: var(--base-color-grey-600);
+  --semantic-color-text-on-brand: var(--base-color-white);
+
+  /* Borders */
+  --semantic-color-border-soft: var(--base-color-grey-200);
+  --semantic-color-border-strong: var(--base-color-grey-400);
+
+  /* Actions */
+  --semantic-color-action-primary: var(--base-color-brand-500);
+  --semantic-color-action-primary-hover: var(--base-color-brand-600);
+
+  /* Feedback */
+  --semantic-color-feedback-success: var(--base-color-success-500);
+  --semantic-color-feedback-danger: var(--base-color-danger-500);
+
+  /* Spacing */
+  --semantic-space-xs: var(--base-space-1);
+  --semantic-space-sm: var(--base-space-2);
+  --semantic-space-md: var(--base-space-4);
+  --semantic-space-lg: var(--base-space-5);
+  --semantic-space-xl: var(--base-space-6);
+  --semantic-space-2xl: var(--base-space-7);
+  --semantic-space-3xl: var(--base-space-8);
+
+  /* Radii */
+  --semantic-radius-sm: var(--base-radius-sm);
+  --semantic-radius-md: var(--base-radius-md);
+  --semantic-radius-lg: var(--base-radius-lg);
+  --semantic-radius-pill: var(--base-radius-pill);
+
+  /* Typography */
+  --semantic-font-size-body: var(--base-font-size-md);
+  --semantic-font-size-label: var(--base-font-size-sm);
+  --semantic-font-size-heading-sm: var(--base-font-size-lg);
+  --semantic-font-size-heading-md: var(--base-font-size-xl);
+  --semantic-font-size-heading-lg: var(--base-font-size-2xl);
+
+  --semantic-font-weight-body: var(--base-font-weight-regular);
+  --semantic-font-weight-strong: var(--base-font-weight-semibold);
+
+  --semantic-line-height-body: var(--base-line-height-normal);
+  --semantic-line-height-heading: var(--base-line-height-tight);
+
+  /* Borders */
+  --semantic-border-width: var(--base-border-width-thin);
+
+  /* Elevation */
+  --semantic-shadow-card: var(--base-shadow-sm);
+  --semantic-shadow-elevated: var(--base-shadow-md);
+
+  /* Font family */
+  --semantic-font-family-base:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+}

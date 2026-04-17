@@ -1,0 +1,15 @@
+.page {
+  padding: var(--semantic-space-2xl) var(--semantic-space-xl);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.home {
+  color: var(--semantic-color-text-muted);
+  text-decoration: none;
+  font-size: var(--semantic-font-size-label);
+}
+
+.home:hover {
+  color: var(--semantic-color-text-body);
+}

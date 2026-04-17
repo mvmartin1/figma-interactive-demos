@@ -1,0 +1,22 @@
+/* Shorthand font tokens. Use via `font: var(--typography-body)`. */
+:root {
+  --typography-body:
+    var(--semantic-font-weight-body) var(--semantic-font-size-body) /
+    var(--semantic-line-height-body) var(--semantic-font-family-base);
+
+  --typography-label:
+    var(--semantic-font-weight-strong) var(--semantic-font-size-label) /
+    var(--semantic-line-height-body) var(--semantic-font-family-base);
+
+  --typography-heading-sm:
+    var(--semantic-font-weight-strong) var(--semantic-font-size-heading-sm) /
+    var(--semantic-line-height-heading) var(--semantic-font-family-base);
+
+  --typography-heading-md:
+    var(--semantic-font-weight-strong) var(--semantic-font-size-heading-md) /
+    var(--semantic-line-height-heading) var(--semantic-font-family-base);
+
+  --typography-heading-lg:
+    var(--semantic-font-weight-strong) var(--semantic-font-size-heading-lg) /
+    var(--semantic-line-height-heading) var(--semantic-font-family-base);
+}

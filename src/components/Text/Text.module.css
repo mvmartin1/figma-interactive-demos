@@ -1,0 +1,32 @@
+.text {
+  color: var(--semantic-color-text-body);
+  margin: 0;
+}
+
+.variant-body {
+  font: var(--typography-body);
+}
+
+.variant-label {
+  font: var(--typography-label);
+}
+
+.variant-heading-sm {
+  font: var(--typography-heading-sm);
+  color: var(--semantic-color-text-heading);
+}
+
+.variant-heading-md {
+  font: var(--typography-heading-md);
+  color: var(--semantic-color-text-heading);
+}
+
+.variant-heading-lg {
+  font: var(--typography-heading-lg);
+  color: var(--semantic-color-text-heading);
+}
+
+/* Defined last so it wins over heading color when both classes are applied. */
+.muted {
+  color: var(--semantic-color-text-muted);
+}

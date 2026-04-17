@@ -1,0 +1,16 @@
+.page {
+  padding: var(--semantic-space-2xl) var(--semantic-space-xl);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.divider {
+  height: var(--semantic-border-width);
+  background: var(--semantic-color-border-soft);
+}

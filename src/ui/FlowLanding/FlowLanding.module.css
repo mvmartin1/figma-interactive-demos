@@ -1,0 +1,17 @@
+.page {
+  padding: var(--semantic-space-2xl) var(--semantic-space-xl);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: var(--semantic-space-md);
+  color: var(--semantic-color-text-muted);
+  text-decoration: none;
+  font-size: var(--semantic-font-size-label);
+}
+
+.back:hover {
+  color: var(--semantic-color-text-body);
+}

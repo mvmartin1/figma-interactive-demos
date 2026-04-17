@@ -1,0 +1,7 @@
+.card {
+  background-color: var(--semantic-color-surface-raised);
+  border: var(--semantic-border-width) solid var(--semantic-color-border-soft);
+  border-radius: var(--semantic-radius-lg);
+  padding: var(--semantic-space-lg);
+  box-shadow: var(--semantic-shadow-card);
+}

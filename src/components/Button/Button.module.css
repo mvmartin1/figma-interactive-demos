@@ -1,0 +1,43 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--semantic-space-sm) var(--semantic-space-md);
+  font-size: var(--semantic-font-size-body);
+  font-weight: var(--semantic-font-weight-strong);
+  line-height: var(--semantic-line-height-body);
+  border-radius: var(--semantic-radius-md);
+  border: var(--semantic-border-width) solid transparent;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease,
+    color 120ms ease;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--semantic-color-action-primary);
+  outline-offset: 2px;
+}
+
+.primary {
+  background-color: var(--semantic-color-action-primary);
+  color: var(--semantic-color-text-on-brand);
+}
+
+.primary:hover:not(:disabled) {
+  background-color: var(--semantic-color-action-primary-hover);
+}
+
+.secondary {
+  background-color: var(--semantic-color-surface-raised);
+  color: var(--semantic-color-text-body);
+  border-color: var(--semantic-color-border-soft);
+}
+
+.secondary:hover:not(:disabled) {
+  border-color: var(--semantic-color-border-strong);
+}

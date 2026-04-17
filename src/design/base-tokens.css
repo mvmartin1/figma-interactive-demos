@@ -1,0 +1,60 @@
+/* Primitive design tokens. Referenced only by semantic-tokens.css.
+   Mirrors perpay-web's two-tier approach, scaled down. */
+:root {
+  /* Color — neutrals */
+  --base-color-white: #ffffff;
+  --base-color-grey-50: #f7f8fa;
+  --base-color-grey-100: #eef0f4;
+  --base-color-grey-200: #dde1e8;
+  --base-color-grey-400: #9aa3b2;
+  --base-color-grey-600: #525a6b;
+  --base-color-grey-800: #1a2233;
+
+  /* Color — brand + feedback */
+  --base-color-brand-500: #2e71ea;
+  --base-color-brand-600: #1f5ccb;
+  --base-color-success-500: #1aa676;
+  --base-color-danger-500: #d94646;
+
+  /* Spacing — 4pt scale */
+  --base-space-1: 4px;
+  --base-space-2: 8px;
+  --base-space-3: 12px;
+  --base-space-4: 16px;
+  --base-space-5: 24px;
+  --base-space-6: 32px;
+  --base-space-7: 48px;
+  --base-space-8: 64px;
+
+  /* Radii */
+  --base-radius-sm: 4px;
+  --base-radius-md: 8px;
+  --base-radius-lg: 16px;
+  --base-radius-pill: 999px;
+
+  /* Font sizes */
+  --base-font-size-xs: 12px;
+  --base-font-size-sm: 14px;
+  --base-font-size-md: 16px;
+  --base-font-size-lg: 20px;
+  --base-font-size-xl: 24px;
+  --base-font-size-2xl: 32px;
+
+  /* Font weights */
+  --base-font-weight-regular: 400;
+  --base-font-weight-medium: 500;
+  --base-font-weight-semibold: 600;
+  --base-font-weight-bold: 700;
+
+  /* Line heights */
+  --base-line-height-tight: 1.2;
+  --base-line-height-normal: 1.5;
+
+  /* Borders */
+  --base-border-width-thin: 1px;
+  --base-border-width-thick: 2px;
+
+  /* Shadows */
+  --base-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --base-shadow-md: 0 4px 16px rgba(16, 24, 40, 0.08);
+}
