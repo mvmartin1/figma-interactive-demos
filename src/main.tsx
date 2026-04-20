@@ -5,6 +5,7 @@ import App from './App';
 import './design/base-tokens.css';
 import './design/semantic-tokens.css';
 import './design/typography.css';
+import './design/breakpoints.css';
 import './design/reset.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

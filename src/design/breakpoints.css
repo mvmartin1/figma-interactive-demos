@@ -1,0 +1,12 @@
+/**
+ * Standard breakpoints — mirror perpay-web exactly so designs and flows
+ * here respond at the same widths as the production app.
+ *
+ * Mobile-first rule: only use min-width queries. Never mix with max-width.
+ * Reference: `packages/design/src/styles/custom-media.css` in perpay-web.
+ */
+@custom-media --small-screen only screen and (min-width: 480px);
+@custom-media --medium-screen only screen and (min-width: 768px);
+@custom-media --semi-large-screen only screen and (min-width: 992px);
+@custom-media --large-screen only screen and (min-width: 1120px);
+@custom-media --jumbo-screen only screen and (min-width: 1170px);

@@ -99,6 +99,50 @@ export default function Welcome() {
   pixel values from Figma output.
 - **Keep scenario data JSON-serialisable.** Plain objects, arrays, strings,
   numbers, booleans. No class instances or functions.
+- **Mobile-first, fully responsive.** Even when the Figma source is on phone
+  frames, the flow should be a real responsive web UI — **do not wrap flows
+  in fixed-width device chrome.** Start with a single-column mobile layout.
+  Give pages a readable `max-width` (typically 640–960px) and center with
+  `margin: 0 auto`.
+- **One breakpoint, by default: `--small-screen` (480px).** This matches
+  modern perpay-web — across ~1,100 `@media` usages in perpay-web, 900+ hit
+  `--small-screen`; the rest are reserved for special cases. Treat it as the
+  single "mobile → not-mobile" switch:
+
+  ```css
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--semantic-space-md);
+  }
+  @media (--small-screen) {
+    .layout {
+      grid-template-columns: 1fr 1fr;
+    }
+    /* bigger padding / roomier gaps usually land here too */
+  }
+  ```
+
+  Only reach for `--medium-screen` (768px) or larger when 480px is visibly
+  too tight for a specific layout change (e.g. a component that needs more
+  horizontal room before switching to a side-by-side). Don't sprinkle
+  multiple breakpoints across a flow "just in case".
+- **Only use `min-width` queries.** `max-width` queries break the
+  mobile-first paradigm and are deprecated in perpay-web too.
+- **Reference names, not pixel values.** The full scale (defined in
+  `src/design/breakpoints.css`, mirrored from perpay-web's
+  `custom-media.css`):
+
+  | Name                  | Min width | When to use                         |
+  | --------------------- | --------- | ----------------------------------- |
+  | `--small-screen`      | 480px     | Default mobile-vs-desktop split     |
+  | `--medium-screen`     | 768px     | When 480px can't fit a layout shift |
+  | `--semi-large-screen` | 992px     | Rare — desktop-specific adjustments |
+  | `--large-screen`      | 1120px    | Rare                                |
+  | `--jumbo-screen`      | 1170px    | Very rare                           |
+
+  `@csstools/postcss-global-data` injects these into every CSS Module, so no
+  per-file imports are needed.
 
 ## Conventions
 

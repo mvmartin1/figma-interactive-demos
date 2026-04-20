@@ -23,7 +23,12 @@
 
   /* Feedback */
   --semantic-color-feedback-success: var(--base-color-success-500);
+  --semantic-color-feedback-success-subtle: var(--base-color-success-50);
+  --semantic-color-feedback-warning: var(--base-color-warning-500);
+  --semantic-color-feedback-warning-subtle: var(--base-color-warning-50);
   --semantic-color-feedback-danger: var(--base-color-danger-500);
+  --semantic-color-feedback-danger-subtle: var(--base-color-danger-50);
+  --semantic-color-feedback-info-subtle: var(--base-color-info-50);
 
   /* Spacing */
   --semantic-space-xs: var(--base-space-1);

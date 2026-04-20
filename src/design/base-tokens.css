@@ -14,7 +14,12 @@
   --base-color-brand-500: #2e71ea;
   --base-color-brand-600: #1f5ccb;
   --base-color-success-500: #1aa676;
+  --base-color-success-50: #e6f7f1;
+  --base-color-warning-500: #d97706;
+  --base-color-warning-50: #fef3c7;
   --base-color-danger-500: #d94646;
+  --base-color-danger-50: #fde8e8;
+  --base-color-info-50: #e6eefd;
 
   /* Spacing — 4pt scale */
   --base-space-1: 4px;
