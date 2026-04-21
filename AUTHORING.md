@@ -167,3 +167,40 @@ Claude will:
 2. Scaffold the folder by copying the example flow's shape.
 3. Map Figma tokens to `--semantic-*` variables where possible.
 4. Wire up scenarios and internal routes per this doc.
+
+## Git flow for designers — `/new-flow` and `/ship-flow`
+
+Two slash commands wrap all the git ceremony so you don't have to touch it.
+
+### Starting a new session
+
+Type `/new-flow` in Claude Code when you want to begin a new flow or
+scenario. It will:
+
+- Stash or commit anything you have in progress (asking first).
+- Pull the latest `main`.
+- Create a feature branch named `flow/<your-slug>`.
+- Offer to scaffold a new flow folder from `src/flows/example-checkout/`.
+
+You stay on that branch for the whole session. Keep editing files; no need
+to run git commands yourself.
+
+### Finishing a session
+
+Type `/ship-flow` when you're happy and want your work reviewed. It will:
+
+- Commit any pending changes (showing you the message first).
+- Push your branch to GitHub.
+- Open a pull request via the `gh` CLI, pre-filled with the flow's name,
+  description, and scenario list.
+- Hand you back the PR URL.
+
+If you come back later and change more things, `/ship-flow` again — it'll
+commit + push and update the same PR.
+
+### When things go sideways
+
+Neither command will force-push, reset your work, or skip safety checks
+without asking you first. If something looks unusual (diverged history,
+unexpected files staged), the skill stops and tells you. Ask for help
+rather than answering "yes" to something you don't fully understand.

@@ -47,6 +47,18 @@ src/
 
 See [AUTHORING.md](./AUTHORING.md) for how to create a new flow.
 
+## Designer git workflow
+
+Two Claude Code slash commands wrap all the git ceremony — you shouldn't
+need to touch `git` directly:
+
+| Command       | When to use                                 | What it does                                                    |
+| ------------- | ------------------------------------------- | --------------------------------------------------------------- |
+| `/new-flow`   | Starting a new flow or scenario             | Pulls main, creates `flow/<slug>` branch, scaffolds the folder  |
+| `/ship-flow`  | Happy with your work and want it reviewed   | Commits, pushes to GitHub, opens a PR via `gh`                  |
+
+Full details in [AUTHORING.md](./AUTHORING.md#git-flow-for-designers--new-flow-and-ship-flow).
+
 ## How it works
 
 - **Flows live in `src/flows/<flow-id>/`** and are auto-discovered at build
