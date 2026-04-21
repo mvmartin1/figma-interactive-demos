@@ -13,13 +13,24 @@ npm run dev
 Open the URL Vite prints (usually `http://localhost:5173`). You'll see a grid
 of demos; click one to pick a scenario and start.
 
+## Run it on your phone (Expo Go)
+
+```bash
+npm run mobile
+```
+
+That's it — the script installs everything, builds the demos, and starts Expo.
+A QR code appears; scan it with Expo Go (iOS Camera app works too). Your phone
+and laptop must be on the same WiFi network. See `run-mobile.sh` for details.
+
 ## Scripts
 
-| Command         | What it does                              |
-| --------------- | ----------------------------------------- |
-| `npm run dev`   | Vite dev server with hot reload           |
-| `npm run build` | Type-check with `tsc` and build for prod  |
-| `npm run lint`  | ESLint (includes the flow-isolation rule) |
+| Command          | What it does                              |
+| ---------------- | ----------------------------------------- |
+| `npm run dev`    | Vite dev server with hot reload           |
+| `npm run build`  | Type-check with `tsc` and build for prod  |
+| `npm run lint`   | ESLint (includes the flow-isolation rule) |
+| `npm run mobile` | Build + launch the Expo Go wrapper        |
 
 ## What's here
 
