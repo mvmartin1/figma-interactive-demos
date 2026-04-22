@@ -72,4 +72,4 @@ ${GREEN}Ready to run.${NC}
 
 EOF
 
-npm start
+npm run bundle-html && npx expo start --clear

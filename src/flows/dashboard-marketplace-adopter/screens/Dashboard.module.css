@@ -1,0 +1,1831 @@
+/* ─── Phone / desktop shell ───────────────────────────────────────────── */
+.screen {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 100dvh;
+  margin: 0 auto;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+}
+
+/* On desktop, constrain to a phone-frame width */
+@media (min-width: 480px) {
+  .screen {
+    max-width: 375px;
+  }
+}
+
+@media (min-width: 768px) {
+  .screen {
+    max-width: 712px;
+  }
+}
+
+/* ─── Background layers ───────────────────────────────────────────────── */
+.bgLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+/* Light mode: very subtle periwinkle radial (matches Figma light page) */
+.bgLight {
+  background: radial-gradient(
+    ellipse 100% 350px at 50% -10px,
+    #ebf2ff 0%,
+    #f1f5f8 65%
+  );
+}
+
+/* Dark/Marketplace: saturated Perpay-blue gradient — fades to #f1f5f8 by ~320px */
+.bgDark {
+  background: linear-gradient(
+    180deg,
+    #1a4fa3 0px,
+    #2563c4 55px,
+    #4b85e0 115px,
+    #7ca7ec 185px,
+    #b8d4f7 260px,
+    #f1f5f8 340px
+  );
+}
+
+/* Card page: dark slate — holds dark through start of benefits, fades midway through */
+.bgCard {
+  background: linear-gradient(
+    180deg,
+    #020813 0px,
+    #181c21 60px,
+    #2e343f 150px,
+    #3f4752 270px,
+    #555f6d 430px,
+    #6c7889 650px,
+    rgba(247, 248, 250, 0) 840px
+  );
+}
+
+/* Adopted card state: gradient ends midway through the balance card (~340px) */
+.bgCardAdopted {
+  background: linear-gradient(
+    180deg,
+    #020813 0px,
+    #181c21 60px,
+    #2e343f 150px,
+    #555f6d 240px,
+    rgba(247, 248, 250, 0) 340px
+  );
+}
+
+/* ─── Fixed header ────────────────────────────────────────────────────── */
+.fixedHeader {
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+  padding: calc(env(safe-area-inset-top, 0px) + 8px) 20px 0;
+}
+
+/* Status bar */
+.statusBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 18px;
+  margin: 0 auto 14px;
+}
+
+.statusTime {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  transition: color 150ms ease;
+}
+
+.statusIcons {
+  width: 64px;
+  height: 12px;
+  display: block;
+}
+
+/* Header row */
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 35px;
+  padding-bottom: 16px;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid white;
+  box-shadow: 0px 6px 12px 0px rgba(133, 150, 178, 0.13);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(179.6deg, #ebf2ff 0.34%, #90b6fb 204.65%);
+  transition: background 150ms ease;
+}
+
+.avatarInitials {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  pointer-events: none;
+  transition: color 150ms ease;
+  user-select: none;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.bellIcon { width: 20px; height: 25px; display: block; }
+
+.cartWrapper {
+  position: relative;
+  width: 28px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+}
+
+.cartIcon { width: 24px; height: 24px; display: block; }
+
+.cartBadge {
+  position: absolute;
+  top: -1px;
+  right: -3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #e84040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: white;
+  font-weight: 400;
+  pointer-events: none;
+}
+
+/* ─── Chip bar ────────────────────────────────────────────────────────── */
+.chipBar {
+  display: flex;
+  gap: 2px;
+  /* Break out of the 20px header side-padding so chips reach screen edges */
+  margin: 0 -20px;
+  padding: 4px 20px 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.chipBar::-webkit-scrollbar { display: none; }
+
+.chipWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 14px;
+  line-height: 21px;
+  cursor: pointer;
+  white-space: nowrap;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-weight: 400;
+}
+
+.chipSelected {
+  background: white;
+  box-shadow: 0px 2px 12px rgba(160, 180, 220, 0.45);
+  color: #113355;
+  font-weight: 500;
+  padding: 4px 10px;
+}
+
+.chipSelectedDark {
+  background: white;
+  box-shadow: 0px 2px 12px rgba(0, 8, 30, 0.28);
+  color: #113355;
+  font-weight: 500;
+  padding: 4px 10px;
+}
+
+.chipUnselectedLight { color: #4f6784; }
+.chipUnselectedDark  { color: rgba(255, 255, 255, 0.82); }
+
+.chipNotifDot {
+  width: 8px;
+  height: 8px;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+/* ─── Content track ───────────────────────────────────────────────────── */
+.contentTrack {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  will-change: transform;
+  /* width is set inline: PAGE_COUNT * screenW px */
+}
+
+.page {
+  flex-shrink: 0;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  will-change: opacity;
+  /* width set inline: screenW px */
+}
+
+/* ─── Page content wrapper ────────────────────────────────────────────── */
+.pageContent {
+  min-height: 100%;
+  padding: 0 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .pageContent {
+    padding: 0 24px 40px;
+  }
+}
+
+/* Group of related cards (e.g. top 3 product cards) */
+.cardGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Section: label + card pair */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ─── Spending limit (top of marketplace content) ────────────────────── */
+.spendingSection {
+  text-align: center;
+  padding: 16px 0 0;
+}
+
+@media (min-width: 768px) {
+  .spendingSection {
+    padding: 24px 0 0;
+  }
+}
+
+.spendingLabel {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 4px;
+  line-height: 15px;
+}
+
+.spendingAmountRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.spendingDollars {
+  font-size: 60px;
+  font-weight: 600;
+  color: white;
+  line-height: 1;
+}
+
+.spendingCents {
+  font-size: 34px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+/* ─── Section headers ─────────────────────────────────────────────────── */
+.sectionLabel {
+  font-size: 16px;
+  font-weight: 400;
+  color: #76869b;
+  margin: 0;
+}
+
+.sectionLabelRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #76869b;
+  margin: 0;
+}
+
+/* ─── Cards ───────────────────────────────────────────────────────────── */
+.card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cardDashed {
+  border: 1px dashed #bac7d7;
+  border-radius: 12px;
+  background: transparent;
+}
+
+.cardContent { padding: 16px; }
+
+.mpCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mpCardLeft { display: flex; align-items: center; gap: 12px; }
+
+.mpCardIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #d9e7ff;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mpCardIconImg { width: 22px; height: 18px; display: block; }
+
+.mpCardTitle { font-size: 16px; font-weight: 600; color: #113355; }
+
+.mpCardRight { display: flex; align-items: center; flex-direction: row; gap: 6px; }
+
+.mpCardAmount { font-size: 20px; font-weight: 500; color: #113355; white-space: nowrap; }
+
+.mpCardAmountSub { font-size: 10px; font-weight: 400; color: #4f6784; }
+
+.trackOrderStrip {
+  background: #ebf2ff;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trackIllusImg { width: 48px; height: 32px; display: block; }
+
+.trackOrderLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #2e71ea;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+
+.dashedCardRow {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashedCardLeft { display: flex; align-items: center; gap: 12px; flex: 1; }
+
+.dashedCardTitle { font-size: 16px; font-weight: 600; color: #113355; }
+
+.dashedChevron { font-size: 18px; color: #9aa3b2; }
+
+/* ─── Credit Building ─────────────────────────────────────────────────── */
+.creditCard {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08), 0px 1px 4px rgba(50, 50, 93, 0.06);
+}
+
+/* Relative container — SVG fills this, text floats over top-left */
+.creditCardBody {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 311 / 155;
+  /* Proportional at all widths — no distortion */
+}
+
+/* Text overlaid on top-left of graph area */
+.creditCardText {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.creditTitle { font-size: 16px; font-weight: 600; color: #113355; margin: 0 0 4px; }
+
+.creditSubtitle { font-size: 12px; color: #587088; margin: 0; }
+
+/* SVG inset 16px from card left/right edges — gives breathing room */
+.creditGraphArea {
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 16px;
+  bottom: 0;
+}
+
+.creditGetStarted {
+  margin: 0 16px 16px;
+  padding: 10px;
+  background: #2e71ea;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ─── Discover More ───────────────────────────────────────────────────── */
+.discoverScroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  /* Extend to screen edge on mobile */
+  margin: 0 -16px;
+  padding: 0 16px;
+}
+
+.discoverScroll::-webkit-scrollbar { display: none; }
+
+@media (min-width: 768px) {
+  .discoverScroll {
+    margin: 0 -24px;
+    padding: 0 24px;
+  }
+}
+
+.promoCard {
+  flex-shrink: 0;
+  width: 329px;
+  min-height: 265px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  background: radial-gradient(ellipse at 130% 130%, #90b6fb 31%, #c8dbfd 48%, #fff 65%);
+}
+
+@media (min-width: 768px) {
+  .promoCard { width: 380px; min-height: 290px; }
+}
+
+.promoCardInner {
+  padding: 24px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.promoChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: #ebf2ff;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2e71ea;
+}
+
+.promoTitle {
+  font-size: 24px;
+  font-weight: 500;
+  color: #113355;
+  line-height: 36px;
+  max-width: 200px;
+  margin: 0;
+}
+
+.promoShopLink { display: flex; align-items: center; gap: 4px; font-size: 16px; color: #2e71ea; line-height: 1; }
+
+/* Image scales with card — top% keeps it below the headline at any size */
+.promoProductArea {
+  position: absolute;
+  right: 0;
+  top: 48%;
+  bottom: 0;
+  width: 68%;
+  pointer-events: none;
+}
+
+.airpodsImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom right;
+}
+
+.darkPromoCard {
+  flex-shrink: 0;
+  width: 329px;
+  min-height: 265px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  background: radial-gradient(ellipse at 148% 185%, #222 0%, #666 25%, #aaa 42%, #ddd 55%, #fff 65%);
+  box-shadow: 0px 30px 60px -30px rgba(5, 24, 44, 0.05), 0px 50px 100px -20px rgba(50, 75, 108, 0.05);
+}
+
+@media (min-width: 768px) {
+  .darkPromoCard { width: 380px; min-height: 290px; }
+}
+
+.darkPromoCardBody {
+  padding: 24px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 65%;
+}
+
+.darkPromoChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: #e9eef5;
+  font-size: 14px;
+  font-weight: 500;
+  color: #222;
+}
+
+.darkPromoTitle {
+  font-size: 24px;
+  font-weight: 500;
+  color: #113355;
+  line-height: 36px;
+  margin: 0;
+}
+
+.checkEligBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+  color: #2e71ea;
+  cursor: pointer;
+  line-height: 24px;
+}
+
+/* Credit card image scales with card — bleeds slightly at bottom-right */
+.creditCardImgArea {
+  position: absolute;
+  right: -8px;
+  top: 48%;
+  bottom: -8px;
+  width: 70%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.creditCardPromoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom right;
+  display: block;
+}
+
+/* ─── Section cards ───────────────────────────────────────────────────── */
+.sectionCard {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.sectionCardInner { padding: 16px; }
+
+.sectionCardTitle { font-size: 16px; font-weight: 600; color: #113355; margin: 0 0 16px; }
+
+.rowItem { display: flex; align-items: center; justify-content: space-between; height: 44px; }
+
+.rowItemLeft { display: flex; align-items: center; gap: 12px; }
+
+.iconSquare {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #d9e7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 20px;
+}
+
+.rowItemText { display: flex; flex-direction: column; gap: 2px; }
+.rowItemLabel { font-size: 12px; color: #4f6784; }
+.rowItemValue { font-size: 16px; color: #113355; font-weight: 600; }
+
+.pill { padding: 2px 8px; border-radius: 9999px; font-size: 10px; font-weight: 500; white-space: nowrap; }
+.pillSuccess { background: #e0f9f2; color: #049b82; }
+
+.dividerLine { height: 1px; background: #f0f4f8; margin: 8px 0; }
+
+.viewAllBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-size: 14px;
+  color: #2e71ea;
+  cursor: pointer;
+  border-top: 1px solid #f0f4f8;
+}
+
+.txRow { display: flex; justify-content: space-between; align-items: flex-start; height: 44px; }
+.txMerchant { font-size: 16px; color: #113355; }
+.txDate { font-size: 12px; color: #4f6784; }
+.txAmount { font-size: 16px; color: #113355; }
+
+.orderRow { display: flex; align-items: center; justify-content: space-between; height: 44px; }
+
+.orderImages { display: flex; position: relative; width: 60px; height: 44px; flex-shrink: 0; }
+
+.orderThumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #d9e7ff;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.orderThumb:nth-child(1) { left: 0; z-index: 2; }
+.orderThumb:nth-child(2) { left: 16px; z-index: 1; box-shadow: -4px 6px 6px rgba(0,0,0,0.07); }
+
+.orderMeta { display: flex; flex-direction: column; gap: 2px; flex: 1; margin-left: 12px; }
+.orderPct { font-size: 16px; color: #113355; font-weight: 600; }
+.orderPctLabel { font-size: 12px; color: #4f6784; }
+
+.trackBtn {
+  padding: 8px 12px;
+  background: #2e71ea;
+  border-radius: 8px;
+  font-size: 12px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ─── Marketplace L2 card ─────────────────────────────────────────────── */
+.mpL2Card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.mpL2Banner {
+  background: rgba(5, 24, 44, 0.1);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #324b6c;
+}
+
+.mpL2BannerIcon { font-size: 14px; }
+
+.mpL2Body { padding: 16px; }
+
+.mpL2TopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.mpL2BalanceLabel { font-size: 16px; color: #113355; }
+.mpL2DotsBtn { font-size: 20px; color: #587088; cursor: pointer; }
+
+.mpL2BarArea { position: relative; padding-bottom: 24px; }
+
+.mpL2BarTrack {
+  height: 8px;
+  border-radius: 100px;
+  background: #f2f2f2;
+  position: relative;
+  width: 100%;
+}
+
+.mpL2BarFill {
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 100%;
+}
+
+.mpL2BarFillImg { width: 100%; height: 100%; display: block; }
+
+.mpL2CurrentMarker {
+  position: absolute;
+  top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+.mpL2MarkerLabel { font-size: 12px; color: #587088; font-style: italic; line-height: 18px; white-space: nowrap; }
+
+.mpL2MarkerTriangle { width: 4px; height: 4px; display: block; }
+
+.mpL2MaxLabel {
+  position: absolute;
+  top: 12px;
+  right: 0;
+  font-size: 12px;
+  color: #587088;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+/* ─── Favorites ───────────────────────────────────────────────────────── */
+.favoritesRow {
+  display: flex;
+  gap: 12px;
+}
+
+.favoritesCard {
+  flex: 1;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  min-height: 103px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
+}
+
+.favBrandLogos {
+  display: flex;
+  align-items: flex-end;
+  height: 50px;
+  position: relative;
+}
+
+.favBrandLogo {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 0.85px solid #f1f5f8;
+  box-shadow: 0px 5px 6px rgba(0,0,0,0.13);
+  position: absolute;
+  overflow: hidden;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favBrandLogo:nth-child(1) { left: 0; z-index: 3; transform: rotate(-10deg); }
+.favBrandLogo:nth-child(2) { left: 24px; z-index: 2; transform: rotate(14deg); }
+.favBrandLogo:nth-child(3) { left: 48px; z-index: 1; transform: rotate(-18deg); }
+
+.favBrandLogoImg { width: 70%; height: 70%; object-fit: contain; }
+
+.favLabel { font-size: 14px; color: #113355; margin-top: 8px; }
+
+/* ─── Orders section ──────────────────────────────────────────────────── */
+.ordersSection { margin: 8px 0; }
+
+.ordersSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #113355;
+  margin-bottom: 12px;
+}
+
+.ordersFilterRow { display: flex; gap: 8px; margin-bottom: 12px; }
+
+.filterChip {
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+.filterChipActive  { background: white; color: #113355; }
+.filterChipInactive { background: transparent; color: #113355; border: 1px solid #e2e2e2; }
+
+.orderCard {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.orderCardThumb { width: 76px; height: 74px; border-radius: 12px; background: #dbdbdb; flex-shrink: 0; }
+
+.orderCardInfo { flex: 1; }
+
+.orderStatusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 8px;
+  border-radius: 9999px;
+  background: #c2ffe7;
+  font-size: 12px;
+  color: #007949;
+  margin-bottom: 4px;
+}
+
+.orderCardTitle { font-size: 14px; font-weight: 500; color: #113355; }
+.orderCardSub { font-size: 12px; color: #587088; }
+
+/* ─── Continue checkout ───────────────────────────────────────────────── */
+.continueCheckoutHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #113355;
+  margin: 8px 0 4px;
+}
+
+.continueCard {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.continueThumb { width: 76px; height: 76px; border-radius: 12px; background: #dbdbdb; flex-shrink: 0; }
+
+.continueInfo { flex: 1; }
+.continueTitle { font-size: 14px; font-weight: 500; color: #113355; }
+.continueSteps { font-size: 12px; color: #587088; }
+.continueExpire { font-size: 10px; color: #d92828; margin-top: 4px; }
+.continueStepBadge { font-size: 10px; color: #113355; }
+
+/* ─── Payments ────────────────────────────────────────────────────────── */
+.paymentsSection { margin: 8px 0 16px; }
+
+.paymentsHeader { font-size: 14px; color: #113355; margin-bottom: 8px; }
+
+.paymentCard { background: white; border-radius: 8px; overflow: hidden; }
+
+.paymentCardTop {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.paymentLeft { display: flex; align-items: center; gap: 12px; }
+
+.paymentIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: rgba(46, 113, 234, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.paymentIconImg { width: 22px; height: 22px; display: block; }
+
+.paymentName { font-size: 14px; font-weight: 500; color: #113355; }
+.paymentSub { font-size: 10px; color: #587088; text-transform: capitalize; }
+.paymentAmount { font-size: 16px; font-weight: 600; color: #2e71ea; }
+
+.paymentCoversBadge {
+  margin: 0 16px 16px;
+  background: #e0f9f2;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #055f51;
+}
+
+.paymentCoversBadgeIcon { width: 18px; height: 18px; flex-shrink: 0; }
+
+.paymentDivider { height: 1px; background: #e9eef5; }
+
+.viewPastBtn {
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  color: #2e71ea;
+  cursor: pointer;
+}
+
+/* ─── Placeholder pages (Card / Bill Pay / Savings) ──────────────────── */
+.placeholderWrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.placeholderCard {
+  background: white;
+  border-radius: 16px;
+  padding: 40px 48px;
+  text-align: center;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.placeholderLabel { font-size: 20px; font-weight: 600; color: #113355; margin: 0 0 8px; }
+.placeholderSub { font-size: 14px; color: #587088; margin: 0; }
+
+/* ─── Marketplace card: amount + arrow row ────────────────────────────── */
+.mpCardAmountRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.mpCardArrow {
+  font-size: 20px;
+  color: #2e71ea;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* ─── Order Tracking overlay ──────────────────────────────────────────── */
+.otOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: #f1f5f8;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 350ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+.otOverlayVisible {
+  transform: translateX(0);
+}
+
+.otHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  flex-shrink: 0;
+}
+
+.otBackBtn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #113355;
+  padding: 0;
+}
+
+.otGetHelpBtn {
+  padding: 7px 16px;
+  border: 1px solid #d9e1eb;
+  border-radius: 100px;
+  background: white;
+  font-size: 14px;
+  color: #113355;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.otContent {
+  padding: 16px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .otContent { padding: 24px 24px 48px; }
+}
+
+.otThumbs {
+  display: flex;
+  align-items: center;
+}
+
+.otThumb {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #f3e8d0;
+  border: 1.5px solid white;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.otThumb:not(:first-child) { margin-left: -8px; }
+
+.otThumbImg { width: 100%; height: 100%; object-fit: contain; }
+
+.otPlusCount {
+  font-size: 12px;
+  color: #76869b;
+  margin-left: 10px;
+}
+
+.otHeadline {
+  font-size: 24px;
+  font-weight: 500;
+  color: #113355;
+  line-height: 36px;
+  margin: 0 0 4px;
+}
+
+.otSubline {
+  font-size: 14px;
+  color: #324b6c;
+  margin: 0;
+  line-height: 21px;
+}
+
+.otTimelineCard {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e9eef5;
+  padding: 16px;
+}
+
+.otStepRow {
+  display: flex;
+  gap: 16px;
+}
+
+.otStepLeftCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.otCheckIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.otConnector {
+  flex: 1;
+  width: 2px;
+  background: #2e71ea;
+  min-height: 16px;
+  margin: 4px 0;
+}
+
+.otStepContent {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.otStepRow:last-child .otStepContent {
+  padding-bottom: 0;
+}
+
+.otStepTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #113355;
+  line-height: 24px;
+  display: block;
+}
+
+.otStepBody {
+  font-size: 14px;
+  color: #324b6c;
+  line-height: 21px;
+  margin: 0;
+}
+
+.otTrackBtn {
+  padding: 10px;
+  background: #2e71ea;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.otDetailCard {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 100px;
+}
+
+.otDetailTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #113355;
+  display: block;
+}
+
+/* ─── Bottom nav ──────────────────────────────────────────────────────── */
+.bottomNav {
+  flex: 0 0 auto;
+  background: white;
+  box-shadow: 0px -2px 100px 0px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 20px calc(env(safe-area-inset-bottom, 4px) + 8px);
+  min-height: 60px;
+  position: relative;
+  z-index: 10;
+}
+
+.navItems {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+
+.navLabelActive { font-size: 11px; color: #377feb; font-weight: 500; }
+.navLabelInactive { font-size: 11px; color: #113355; }
+
+/* ─── Card page ───────────────────────────────────────────────────────────── */
+.cardPageContent {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hero floats over bgCard layer — no local background needed */
+.cardHero {
+  background: transparent;
+  padding: 36px 24px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.cardHeroTitle {
+  font-size: 34px;
+  font-weight: 500;
+  color: white;
+  line-height: 1.15;
+  margin: 0;
+  max-width: 290px;
+}
+
+.cardHeroSubtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 21px;
+  margin: 0;
+  max-width: 240px;
+}
+
+.cardApplyBtn {
+  margin-top: 4px;
+  height: 52px;
+  padding: 0 52px;
+  background: #2e71ea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Card image — sits over bgCard which has faded to light by this point */
+.cardImgSection {
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cardHeroImg {
+  width: 100%;
+  max-width: none;
+  display: block;
+  transform: rotate(4deg);
+  margin: 8px 0 0;
+}
+
+/* Benefits section */
+.cardBenefitsSection {
+  background: transparent;
+  padding: 16px 16px 32px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (min-width: 768px) {
+  .cardBenefitsSection { padding: 32px 24px 40px; }
+}
+
+.cardBenefitsTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  margin: 0 0 2px;
+}
+
+.cardBenefitCard {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.cardBenefitItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+}
+
+.cardBenefitDivider {
+  height: 1px;
+  background: #f0f4f8;
+  margin: 0 16px;
+}
+
+.cardBenefitIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #d9e7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cardBenefitText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cardBenefitLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: #113355;
+  line-height: 1.3;
+}
+
+.cardBenefitSub {
+  font-size: 12px;
+  color: #587088;
+  line-height: 1.5;
+}
+
+/* ─── All tab: combined Marketplace + Credit Card card ─────────────────── */
+.mpCcCardContainer {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.trackCardStrip {
+  background: #ebf2ff;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.miniCard {
+  width: 64px;
+  height: auto;
+  flex-shrink: 0;
+  display: block;
+  border-radius: 4px;
+}
+
+/* ─── Card apply: loading overlay ──────────────────────────────────────── */
+.applyOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: #2e71ea;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transform: translateY(100%);
+  transition: transform 350ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.applyOverlayVisible {
+  transform: translateY(0);
+}
+
+.applySpinner {
+  width: 48px;
+  height: 48px;
+  border: 3.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.applySpinnerLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+}
+
+/* ─── Card approval overlay ─────────────────────────────────────────────── */
+.approvalOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 350ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.approvalOverlayVisible {
+  transform: translateY(0);
+}
+
+.approvalContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  gap: 20px;
+}
+
+.approvalCheckCircle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #ebf2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.approvalTitle {
+  font-size: 28px;
+  font-weight: 500;
+  color: #113355;
+  text-align: center;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.approvalSubtitle {
+  font-size: 14px;
+  color: #4f6784;
+  text-align: center;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.approvalFooter {
+  padding: 16px 20px calc(env(safe-area-inset-bottom, 4px) + 20px);
+  flex-shrink: 0;
+}
+
+.approvalBtn {
+  width: 100%;
+  height: 52px;
+  background: #2e71ea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ─── Card tab: adopted state ───────────────────────────────────────────── */
+.cardAdoptedPageContent {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-bottom: 32px;
+}
+
+.cardAdoptedHero {
+  padding: 32px 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.cardAdoptedLimitLabel {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: center;
+  margin: 0;
+}
+
+.cardAdoptedLimit {
+  font-size: 60px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.cardBalanceCard {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0 16px;
+}
+
+.cardBalanceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.cardBalanceLabel {
+  font-size: 16px;
+  color: #113355;
+}
+
+.cardBalanceBar {
+  height: 8px;
+  background: #f2f2f2;
+  border-radius: 100px;
+  margin-bottom: 10px;
+}
+
+.cardBalanceBarLabels {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardBalanceBarLabel {
+  font-size: 12px;
+  color: #587088;
+  font-style: italic;
+}
+
+.cardActivitySection {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardActivityLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: #113355;
+  margin: 0;
+}
+
+.cardActivityEmpty {
+  border: 1px dashed #bac7d7;
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardActivityEmptyTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #113355;
+  text-align: center;
+  margin: 0;
+}
+
+.cardActivityEmptySub {
+  font-size: 12px;
+  color: #76869b;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 200px;
+  margin: 0;
+}
+
+.cardMgmtCard {
+  background: white;
+  border-radius: 12px;
+  margin: 0 16px;
+  overflow: hidden;
+}
+
+.cardMgmtHeader {
+  font-size: 16px;
+  font-weight: 600;
+  color: #113355;
+  padding: 16px;
+  margin: 0;
+  border-bottom: 1px solid #e9eef5;
+}
+
+.cardMgmtItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #e9eef5;
+  cursor: pointer;
+}
+
+.cardMgmtItem:last-child {
+  border-bottom: none;
+}
+
+.cardMgmtItemLabel {
+  font-size: 16px;
+  color: #113355;
+  text-transform: capitalize;
+}
+
+/* ─── Marketplace empty state (no order yet) ────────────────────────────── */
+.mpEmptyState {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.mpEmptyStateTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #113355;
+  margin: 0;
+}
+
+.mpEmptyStateSub {
+  font-size: 13px;
+  color: #76869b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ─── Shop overlay ──────────────────────────────────────────────────────── */
+.shopOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: #f1f5f8;
+  transform: translateY(100%);
+  transition: transform 380ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.shopOverlayVisible {
+  transform: translateY(0);
+}
+
+.shopHeader {
+  flex-shrink: 0;
+  padding: calc(env(safe-area-inset-top, 0px) + 20px) 20px 12px;
+  background: #f1f5f8;
+}
+
+.shopTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #113355;
+  margin: 0;
+}
+
+.shopScrollArea {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.shopCategoryBar {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.shopCategoryBar::-webkit-scrollbar {
+  display: none;
+}
+
+.shopCategoryChip {
+  flex-shrink: 0;
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1.5px solid #d9e1eb;
+  background: white;
+  color: #4f6784;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.shopCategoryChipActive {
+  background: #2e71ea;
+  border-color: #2e71ea;
+  color: white;
+}
+
+.shopGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 0 16px 16px;
+}
+
+.shopProductCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.shopProductImgArea {
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.shopProductInfo {
+  padding: 12px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.shopProductBrand {
+  font-size: 11px;
+  color: #9aa3b2;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.shopProductName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #113355;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.shopProductPay {
+  font-size: 13px;
+  color: #2e71ea;
+  font-weight: 600;
+  margin: 4px 0 0;
+}
+
+.shopProductPaySub {
+  font-size: 11px;
+  color: #9aa3b2;
+  font-weight: 400;
+}
+
+.shopBottomNav {
+  flex-shrink: 0;
+  background: white;
+  box-shadow: 0px -2px 100px 0px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 20px calc(env(safe-area-inset-bottom, 4px) + 8px);
+  min-height: 60px;
+}
