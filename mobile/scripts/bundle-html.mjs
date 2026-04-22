@@ -31,7 +31,38 @@ if (!match) {
   process.exit(1);
 }
 html = html.replace(scriptRe, '');
-html = html.replace('</body>', `<script>${match[1]}</script></body>`);
+
+// Inject a visible error overlay before the app script so crashes show on screen
+const errorOverlay = `<script>
+(function(){
+  var el=null;
+  function show(msg){
+    if(!el){
+      el=document.createElement('div');
+      el.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:#fff;z-index:99999;padding:24px;font-family:monospace;overflow:auto;';
+      el.innerHTML='<h2 style="color:#c00;margin:0 0 12px">JS Error</h2>';
+      document.body.appendChild(el);
+    }
+    var p=document.createElement('pre');
+    p.style.cssText='color:#c00;font-size:12px;white-space:pre-wrap;margin:0 0 8px;';
+    p.textContent=msg;
+    el.appendChild(p);
+  }
+  window.addEventListener('error',function(e){show(e.message+'\\n'+e.filename+':'+e.lineno);});
+  window.addEventListener('unhandledrejection',function(e){show('Unhandled: '+String(e.reason));});
+})();
+</script>`;
+
+// Add a loading indicator inside #root — React replaces it on mount, so
+// if the page stays blank but shows "Loading…" React never ran.
+// Use a function as the replacement to prevent $ in the JS bundle from being
+// interpreted as special replacement patterns ($& $' $` etc).
+html = html.replace('<div id="root"></div>', () =>
+  '<div id="root"><div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:monospace;font-size:15px;color:#555">Loading…</div></div>',
+);
+
+const appScript = `<script>${match[1]}<\/script>`;
+html = html.replace('</body>', () => errorOverlay + appScript + '</body>');
 
 const escaped = JSON.stringify(html);
 
