@@ -1830,3 +1830,255 @@
   padding: 8px 20px calc(env(safe-area-inset-bottom, 4px) + 8px);
   min-height: 60px;
 }
+
+/* ─── All page: overlimit card strip ────────────────────────────────────── */
+.mpCardAmountSubOverlimit {
+  color: #e07a00;
+}
+
+.overlimitStrip {
+  background: #ebf2ff;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.overlimitStripContent {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ─── Card details: overlimit + reship scenario ──────────────────────────── */
+
+.notificationSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 16px 8px;
+}
+
+.notificationCardWrap {
+  position: relative;
+}
+
+.notificationCard {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0px 4px 21px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.notificationCardTop {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.notificationIcon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  object-fit: contain;
+  margin-top: 2px;
+}
+
+.notificationText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.notificationTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #113355;
+  margin: 0;
+  line-height: 24px;
+}
+
+.notificationBody {
+  font-size: 14px;
+  color: #324b6c;
+  margin: 0;
+  line-height: 21px;
+}
+
+.makeBankPaymentBtn {
+  width: 100%;
+  background: #2e71ea;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+}
+
+.countBadge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #2e71ea;
+  border: 2.5px solid white;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  line-height: 1;
+}
+
+.seeMoreToggle {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #4f6784;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+  padding: 14px 0;
+  width: 100%;
+}
+
+/* ── Animated second notification ── */
+.notification2Wrap {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 300ms ease;
+  opacity: 0;
+}
+
+.notification2WrapVisible {
+  max-height: 120px;
+  opacity: 1;
+}
+
+.notification2Card {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 0.5px solid rgba(5, 24, 44, 0.08);
+  box-shadow: 0px 2px 8px rgba(3, 70, 141, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.notification2Icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.trackBtn {
+  background: none;
+  border: 1px solid #d0dae8;
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #113355;
+  font-family: inherit;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── Overlimit progress bar ── */
+.overlimitProgressBarWrap {
+  height: 12px;
+  background: #f2f2f2;
+  border-radius: 100px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.overlimitProgressBar {
+  height: 100%;
+  width: 100%;
+  background: #ebb323;
+  border-radius: 100px;
+}
+
+/* ── Activity card for overlimit page ── */
+.overlimitActivityCard {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.overlimitActivityDivider {
+  height: 1px;
+  background: #e9eef5;
+  margin: 0;
+}
+
+.overlimitActivityRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.overlimitActivityRowDivider {
+  height: 1px;
+  background: #e9eef5;
+  margin: 0 16px;
+}
+
+.overlimitActivityMerchant {
+  font-size: 16px;
+  color: #113355;
+  margin: 0;
+  line-height: 24px;
+}
+
+.overlimitActivityDate {
+  font-size: 12px;
+  color: #4f6784;
+  margin: 0;
+  line-height: 18px;
+}
+
+.overlimitActivityAmount {
+  font-size: 16px;
+  color: #113355;
+  margin: 0;
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+.viewMoreBtn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2e71ea;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 12px 16px;
+  text-align: center;
+}

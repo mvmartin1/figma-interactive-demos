@@ -6,34 +6,45 @@ import marketplacePromoImg from '../assets/marketplace-promo.png';
 import creditCardPromoImg from '../assets/credit-card-promo.png';
 import creditCardHeroImg from '../assets/credit-card-hero.png';
 import smallCardImg from '../assets/small-card.png';
+import hourglassImg from '../assets/hourglass.png';
+import bellLightImg from '../assets/bell-light.png';
+import bellDarkImg from '../assets/bell-dark.png';
+import cartLightImg from '../assets/cart-light.png';
+import cartDarkImg from '../assets/cart-dark.png';
+import chipDotLightImg from '../assets/chip-dot-light.png';
+import chipDotDarkImg from '../assets/chip-dot-dark.png';
+import mpIconImg from '../assets/mp-icon.png';
+import trackIllusImg from '../assets/track-illus.png';
+import utilizationFillImg from '../assets/utilization-fill.png';
+import polygonUpImg from '../assets/polygon-up.png';
+import paymentIconImg from '../assets/payment-icon.png';
+import checkIconImg from '../assets/check-icon.png';
+import brandLogo1Img from '../assets/brand-logo-1.png';
+import brandLogo2Img from '../assets/brand-logo-2.png';
+import otThumbImg from '../assets/ot-thumb.png';
+import overlimitWarningImg from '../assets/overlimit-warning.png';
 
 const A = {
-  statusIconsLight: 'https://www.figma.com/api/mcp/asset/ca9e9def-f65c-4160-b2c5-54a28bf59f70',
-  avatarLight: 'https://www.figma.com/api/mcp/asset/81b067db-a74c-4d9f-86f2-ccdeb7a6f9ed',
-  bellLight: 'https://www.figma.com/api/mcp/asset/15c67016-c195-4d72-aa96-0e59e5ec0b3b',
-  cartLight: 'https://www.figma.com/api/mcp/asset/be347575-7c0e-4209-bebc-2e73e17c2891',
-  chipDotLight: 'https://www.figma.com/api/mcp/asset/5f5feaf7-8093-43dd-9ea6-a10d4286c18d',
-  mpIcon: 'https://www.figma.com/api/mcp/asset/f0791ce3-86f9-465f-9a48-8988bb16f144',
-  trackIllus: 'https://www.figma.com/api/mcp/asset/e6e44f41-500c-47c2-bf4e-ecaafe6b98fb',
-  creditGraphMask: 'https://www.figma.com/api/mcp/asset/4fa163ef-1057-45d6-842d-962467cf974b',
-  airpods: 'https://www.figma.com/api/mcp/asset/7653d988-acbc-4d94-ac36-b3e0eb8304a6',
-  perpayLogoWhite: 'https://www.figma.com/api/mcp/asset/bef39456-12a7-4349-8cff-b3c33ef61f63',
-  statusIconsDark: 'https://www.figma.com/api/mcp/asset/499baf44-6aad-4d18-a622-9dada11d008e',
-  avatarDark: 'https://www.figma.com/api/mcp/asset/155c405b-f0dd-4c00-959c-1a402b59c0eb',
-  bellDark: 'https://www.figma.com/api/mcp/asset/0274cc20-639b-4a72-a73b-cefc562bc4b2',
-  cartDark: 'https://www.figma.com/api/mcp/asset/c91ff87a-afa6-44bb-9b6b-fe36826dc008',
-  chipDotDark: 'https://www.figma.com/api/mcp/asset/ee8a5793-df01-43a3-aefc-966da80c00b2',
-  utilizationFill: 'https://www.figma.com/api/mcp/asset/62b6bcf7-61e0-47d5-9e9d-98577b9dfe0e',
-  polygonUp: 'https://www.figma.com/api/mcp/asset/a0154774-d8c2-4059-ae27-7df033418cc6',
-  paymentIcon: 'https://www.figma.com/api/mcp/asset/b0748392-7562-4057-b9a8-ffc8c695efae',
-  checkIcon: 'https://www.figma.com/api/mcp/asset/d3cede26-3a1f-4a02-aae6-09d2be4553b2',
-  appleLogo: 'https://www.figma.com/api/mcp/asset/09f47101-60c7-4f99-a557-b55d4d84040f',
-  brandLogo2: 'https://www.figma.com/api/mcp/asset/90d05dda-25c2-4fe4-bf76-f1bcbb6f2144',
-  brandLogo3: 'https://www.figma.com/api/mcp/asset/5b23980e-3a2c-4c12-ab38-0af44bfc1a01',
-  appleLogo2: 'https://www.figma.com/api/mcp/asset/00587614-6417-4417-93d3-955fb30d745d',
-  kitchenaid: 'https://www.figma.com/api/mcp/asset/97788f12-fd9e-4aa9-b358-77fb9cfc5ec8',
-  otProductThumb: 'https://www.figma.com/api/mcp/asset/85fc4cd3-e5f6-4fe4-9ada-616f042cdada',
-  otCheckmark: 'https://www.figma.com/api/mcp/asset/8678ef32-9f89-4639-b1e0-341e9729c07d',
+  bellLight: bellLightImg,
+  bellDark: bellDarkImg,
+  cartLight: cartLightImg,
+  cartDark: cartDarkImg,
+  chipDotLight: chipDotLightImg,
+  chipDotDark: chipDotDarkImg,
+  mpIcon: mpIconImg,
+  trackIllus: trackIllusImg,
+  utilizationFill: utilizationFillImg,
+  polygonUp: polygonUpImg,
+  paymentIcon: paymentIconImg,
+  checkIcon: checkIconImg,
+  appleLogo: brandLogo1Img,
+  brandLogo2: brandLogo2Img,
+  brandLogo3: brandLogo1Img,
+  appleLogo2: brandLogo1Img,
+  kitchenaid: brandLogo2Img,
+  otProductThumb: otThumbImg,
+  otCheckmark: checkIconImg,
+  overlimitWarningIcon: overlimitWarningImg,
 };
 
 // ─── SVG Icons ───────────────────────────────────────────────────────────────
@@ -235,13 +246,15 @@ function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplac
   onGoToCash: () => void;
   onOpenShop: () => void;
 }) {
+  const isOverlimit = data.card.isOverlimit ?? false;
+
   return (
     <div className={styles.pageContent}>
 
       {/* ── Top product cards ── */}
       <div className={styles.cardGroup}>
         {cardAdopted ? (
-          <div className={styles.mpCcCardContainer}>
+          <div className={styles.mpCcCardContainer} style={{ position: 'relative' }}>
             {/* Marketplace row */}
             <div
               className={styles.cardContent}
@@ -251,7 +264,7 @@ function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplac
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && onGoToMarketplace()}
             >
-              <div className={styles.mpCardTop} style={{ marginBottom: hasOrder && hasTracking ? 16 : 0 }}>
+              <div className={styles.mpCardTop} style={{ marginBottom: hasOrder && hasTracking && !isOverlimit ? 16 : 0 }}>
                 <div className={styles.mpCardLeft}>
                   <div className={styles.mpCardIcon}>
                     <img src={A.mpIcon} alt="" className={styles.mpCardIconImg} />
@@ -266,7 +279,7 @@ function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplac
                   <ChevronRight size={18} color="#113355" />
                 </div>
               </div>
-              {hasOrder && hasTracking && (
+              {hasOrder && hasTracking && !isOverlimit && (
                 <div className={styles.trackOrderStrip}>
                   <img src={A.trackIllus} alt="" className={styles.trackIllusImg} />
                   <button
@@ -287,7 +300,7 @@ function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplac
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && onGoToCard()}
             >
-              <div className={styles.mpCardTop} style={{ marginBottom: hasTracking ? 16 : 0 }}>
+              <div className={styles.mpCardTop} style={{ marginBottom: (hasTracking || isOverlimit) ? 16 : 0 }}>
                 <div className={styles.mpCardLeft}>
                   <div className={styles.mpCardIcon}>
                     <img src={A.mpIcon} alt="" className={styles.mpCardIconImg} />
@@ -296,13 +309,30 @@ function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplac
                 </div>
                 <div className={styles.mpCardRight}>
                   <div className={styles.mpCardAmountRow}>
-                    <span className={styles.mpCardAmount}>$1,500</span>
-                    <span className={styles.mpCardAmountSub}>Available</span>
+                    {isOverlimit ? (
+                      <>
+                        <span className={styles.mpCardAmount}>$20</span>
+                        <span className={`${styles.mpCardAmountSub} ${styles.mpCardAmountSubOverlimit}`}>Overlimit</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className={styles.mpCardAmount}>$1,500</span>
+                        <span className={styles.mpCardAmountSub}>Available</span>
+                      </>
+                    )}
                   </div>
                   <ChevronRight size={18} color="#113355" />
                 </div>
               </div>
-              {hasTracking && (
+              {isOverlimit ? (
+                <div className={styles.overlimitStrip}>
+                  <div style={{ width: 8 }} />
+                  <div className={styles.overlimitStripContent}>
+                    <span className={styles.trackOrderLink}>Make bank payment</span>
+                    <ArrowRight size={18} color="#2e71ea" />
+                  </div>
+                </div>
+              ) : hasTracking && (
                 <div className={styles.trackCardStrip}>
                   <img src={smallCardImg} alt="" className={styles.miniCard} />
                   <button
@@ -738,11 +768,119 @@ function CardAdoptedContent({ creditLimit }: { creditLimit: number }) {
   );
 }
 
-function CardContent({ onApply, cardAdopted, creditLimit }: {
+const CARD_ACTIVITY = [
+  { merchant: 'REANIMATOR', date: '01/01/2026', amount: '$7.43' },
+  { merchant: 'Netflix', date: '01/07/2026', amount: '$19.64' },
+  { merchant: 'Payment', date: '01/01/2026', amount: '$50.00' },
+  { merchant: 'Starbucks', date: '01/07/2026', amount: '$10.32' },
+];
+
+function CardOverlimitContent({ data }: { data: DashboardData }) {
+  const [expanded, setExpanded] = useState(false);
+  const overlimitAmount = data.card.currentBalance;
+  const creditLimit = data.card.creditLimit;
+
+  return (
+    <div className={styles.cardAdoptedPageContent}>
+
+      <div className={styles.cardAdoptedHero}>
+        <p className={styles.cardAdoptedLimitLabel}>Overlimit</p>
+        <p className={styles.cardAdoptedLimit}>${overlimitAmount}</p>
+      </div>
+
+      {/* ── Notifications ── */}
+      <div className={styles.notificationSection}>
+        {/* Notification 1: Overlimit — always visible */}
+        <div className={styles.notificationCardWrap}>
+          <div className={styles.notificationCard}>
+            <div className={styles.notificationCardTop}>
+              <img src={A.overlimitWarningIcon} alt="" className={styles.notificationIcon} />
+              <div className={styles.notificationText}>
+                <p className={styles.notificationTitle}>Your card is over the limit</p>
+                <p className={styles.notificationBody}>Your card is currently over it's limit. Make a payment to reduce your balance.</p>
+              </div>
+            </div>
+            <button className={styles.makeBankPaymentBtn}>Make bank payment</button>
+          </div>
+          {/* Count badge — CSS circle */}
+          <div className={styles.countBadge}>{expanded ? 1 : 2}</div>
+        </div>
+
+        {/* Notification 2: Card Reshipping — animated, directly below #1 */}
+        <div className={`${styles.notification2Wrap} ${expanded ? styles.notification2WrapVisible : ''}`}>
+          <div className={styles.notification2Card}>
+            <div className={styles.notificationCardTop}>
+              <img src={hourglassImg} alt="" className={styles.notification2Icon} />
+              <div className={styles.notificationText}>
+                <p className={styles.notificationTitle}>Card Shipped</p>
+                <p className={styles.notificationBody}>Estimated arrival: June 5th</p>
+              </div>
+            </div>
+            <button className={styles.trackBtn}>Track</button>
+          </div>
+        </div>
+
+        {/* Toggle: below all notifications */}
+        <button className={styles.seeMoreToggle} onClick={() => setExpanded(!expanded)}>
+          {expanded ? 'Tap to see 1 less' : 'Tap to see 1 more'}
+        </button>
+      </div>
+
+      {/* ── Progress bar ── */}
+      <div className={styles.cardBalanceCard}>
+        <div className={styles.overlimitProgressBarWrap}>
+          <div className={styles.overlimitProgressBar} />
+        </div>
+        <div className={styles.cardBalanceBarLabels}>
+          <span className={styles.cardBalanceBarLabel}>$0 Left</span>
+          <span className={styles.cardBalanceBarLabel}>of ${creditLimit.toLocaleString()}</span>
+        </div>
+      </div>
+
+      {/* ── Activity ── */}
+      <div className={styles.cardActivitySection}>
+        <div className={styles.overlimitActivityCard}>
+          <p className={styles.cardActivityLabel}>Activity</p>
+          <div className={styles.overlimitActivityDivider} />
+          {CARD_ACTIVITY.map((item, i) => (
+            <div key={i}>
+              <div className={styles.overlimitActivityRow}>
+                <div>
+                  <p className={styles.overlimitActivityMerchant}>{item.merchant}</p>
+                  <p className={styles.overlimitActivityDate}>{item.date}</p>
+                </div>
+                <p className={styles.overlimitActivityAmount}>{item.amount}</p>
+              </div>
+              {i < CARD_ACTIVITY.length - 1 && <div className={styles.overlimitActivityRowDivider} />}
+            </div>
+          ))}
+          <div className={styles.overlimitActivityDivider} />
+          <button className={styles.viewMoreBtn}>View More</button>
+        </div>
+      </div>
+
+      {/* ── Card Management ── */}
+      <div className={styles.cardMgmtCard}>
+        <p className={styles.cardMgmtHeader}>Card Management</p>
+        {CARD_MGMT_ITEMS.map((label, i) => (
+          <div key={i} className={styles.cardMgmtItem}>
+            <span className={styles.cardMgmtItemLabel}>{label}</span>
+            <ChevronRight size={18} color="#9aa3b2" />
+          </div>
+        ))}
+      </div>
+
+    </div>
+  );
+}
+
+function CardContent({ onApply, cardAdopted, creditLimit, data }: {
   onApply: () => void;
   cardAdopted: boolean;
   creditLimit: number;
+  data: DashboardData;
 }) {
+  if (cardAdopted && data.card.isOverlimit) return <CardOverlimitContent data={data} />;
   if (cardAdopted) return <CardAdoptedContent creditLimit={creditLimit} />;
 
   return (
@@ -1176,7 +1314,7 @@ export default function Dashboard() {
       onOpenShop={() => setActiveNav('shop')}
     />,
     <MarketplaceContent data={data} hasOrder={data.hasOrder} onTrackOrder={() => setShowOrderTracking(true)} />,
-    <CardContent onApply={handleApplyNow} cardAdopted={cardAdopted} creditLimit={data.card.creditLimit} />,
+    <CardContent onApply={handleApplyNow} cardAdopted={cardAdopted} creditLimit={data.card.creditLimit} data={data} />,
     <PlaceholderContent label="Cash" />,
     <PlaceholderContent label="Bill Pay" />,
     <PlaceholderContent label="Savings" />,

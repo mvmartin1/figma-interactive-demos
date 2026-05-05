@@ -33,6 +33,8 @@ export type DashboardData = {
     adopted: boolean;
     creditLimit: number;
     currentBalance: number;
+    isOverlimit?: boolean;
+    isReshipping?: boolean;
   };
   hasOrder: boolean;
   hasTracking: boolean;
@@ -101,6 +103,21 @@ export const scenarios: Record<string, Scenario<DashboardData>> = {
       card: { adopted: true, creditLimit: 1500, currentBalance: 0 },
       hasOrder: true,
       hasTracking: false,
+    },
+  },
+  cardOverlimitReship: {
+    label: 'Card – Overlimit + Card Reshipping',
+    data: {
+      ...BASE_DATA,
+      card: {
+        adopted: true,
+        creditLimit: 1000,
+        currentBalance: 32,
+        isOverlimit: true,
+        isReshipping: true,
+      },
+      hasOrder: false,
+      hasTracking: true,
     },
   },
 };
