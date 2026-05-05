@@ -1226,8 +1226,8 @@
   background: white;
   box-shadow: 0px -2px 100px 0px rgba(0, 0, 0, 0.06);
   display: flex;
-  align-items: center;
-  padding: 0 20px calc(env(safe-area-inset-bottom, 4px) + 8px);
+  align-items: flex-end;
+  padding: 8px 20px calc(env(safe-area-inset-bottom, 4px) + 8px);
   min-height: 60px;
   position: relative;
   z-index: 10;
@@ -1270,20 +1270,21 @@
 }
 
 .cardHeroTitle {
-  font-size: 34px;
+  font-size: 40px;
   font-weight: 500;
   color: white;
   line-height: 1.15;
   margin: 0;
-  max-width: 290px;
+  max-width: 320px;
 }
 
 .cardHeroSubtitle {
   font-size: 14px;
+  font-weight: 400;
   color: rgba(255, 255, 255, 0.8);
   line-height: 21px;
   margin: 0;
-  max-width: 240px;
+  max-width: 280px;
 }
 
 .cardApplyBtn {
@@ -1825,7 +1826,7 @@
   background: white;
   box-shadow: 0px -2px 100px 0px rgba(0, 0, 0, 0.06);
   display: flex;
-  align-items: center;
-  padding: 0 20px calc(env(safe-area-inset-bottom, 4px) + 8px);
+  align-items: flex-end;
+  padding: 8px 20px calc(env(safe-area-inset-bottom, 4px) + 8px);
   min-height: 60px;
 }
