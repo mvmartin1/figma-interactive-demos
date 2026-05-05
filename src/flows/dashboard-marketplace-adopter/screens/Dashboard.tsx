@@ -224,10 +224,11 @@ function ChipBar({ pageIndex, isDark, onSelect }: ChipBarProps) {
 
 // ─── All page content ────────────────────────────────────────────────────────
 
-function AllContent({ data, cardAdopted, hasOrder, onGoToMarketplace, onTrackOrder, onGoToCard, onGoToCash, onOpenShop }: {
+function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplace, onTrackOrder, onGoToCard, onGoToCash, onOpenShop }: {
   data: DashboardData;
   cardAdopted: boolean;
   hasOrder: boolean;
+  hasTracking: boolean;
   onGoToMarketplace: () => void;
   onTrackOrder: () => void;
   onGoToCard: () => void;
@@ -250,7 +251,7 @@ function AllContent({ data, cardAdopted, hasOrder, onGoToMarketplace, onTrackOrd
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && onGoToMarketplace()}
             >
-              <div className={styles.mpCardTop} style={{ marginBottom: hasOrder ? 16 : 0 }}>
+              <div className={styles.mpCardTop} style={{ marginBottom: hasOrder && hasTracking ? 16 : 0 }}>
                 <div className={styles.mpCardLeft}>
                   <div className={styles.mpCardIcon}>
                     <img src={A.mpIcon} alt="" className={styles.mpCardIconImg} />
@@ -265,7 +266,7 @@ function AllContent({ data, cardAdopted, hasOrder, onGoToMarketplace, onTrackOrd
                   <ChevronRight size={18} color="#113355" />
                 </div>
               </div>
-              {hasOrder && (
+              {hasOrder && hasTracking && (
                 <div className={styles.trackOrderStrip}>
                   <img src={A.trackIllus} alt="" className={styles.trackIllusImg} />
                   <button
@@ -286,7 +287,7 @@ function AllContent({ data, cardAdopted, hasOrder, onGoToMarketplace, onTrackOrd
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && onGoToCard()}
             >
-              <div className={styles.mpCardTop} style={{ marginBottom: 16 }}>
+              <div className={styles.mpCardTop} style={{ marginBottom: hasTracking ? 16 : 0 }}>
                 <div className={styles.mpCardLeft}>
                   <div className={styles.mpCardIcon}>
                     <img src={A.mpIcon} alt="" className={styles.mpCardIconImg} />
@@ -301,15 +302,17 @@ function AllContent({ data, cardAdopted, hasOrder, onGoToMarketplace, onTrackOrd
                   <ChevronRight size={18} color="#113355" />
                 </div>
               </div>
-              <div className={styles.trackCardStrip}>
-                <img src={smallCardImg} alt="" className={styles.miniCard} />
-                <button
-                  className={styles.trackOrderLink}
-                  onClick={(e) => { e.stopPropagation(); onGoToCard(); }}
-                >
-                  Track Card <ArrowRight size={18} color="#2e71ea" />
-                </button>
-              </div>
+              {hasTracking && (
+                <div className={styles.trackCardStrip}>
+                  <img src={smallCardImg} alt="" className={styles.miniCard} />
+                  <button
+                    className={styles.trackOrderLink}
+                    onClick={(e) => { e.stopPropagation(); onGoToCard(); }}
+                  >
+                    Track Card <ArrowRight size={18} color="#2e71ea" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ) : (
@@ -324,7 +327,7 @@ function AllContent({ data, cardAdopted, hasOrder, onGoToMarketplace, onTrackOrd
               aria-label="Open Marketplace details"
             >
               <div className={styles.cardContent}>
-                <div className={styles.mpCardTop} style={{ marginBottom: hasOrder ? 16 : 0 }}>
+                <div className={styles.mpCardTop} style={{ marginBottom: hasOrder && hasTracking ? 16 : 0 }}>
                   <div className={styles.mpCardLeft}>
                     <div className={styles.mpCardIcon}>
                       <img src={A.mpIcon} alt="" className={styles.mpCardIconImg} />
@@ -339,7 +342,7 @@ function AllContent({ data, cardAdopted, hasOrder, onGoToMarketplace, onTrackOrd
                     <ChevronRight size={18} color="#113355" />
                   </div>
                 </div>
-                {hasOrder && (
+                {hasOrder && hasTracking && (
                   <div className={styles.trackOrderStrip}>
                     <img src={A.trackIllus} alt="" className={styles.trackIllusImg} />
                     <button
@@ -1165,6 +1168,7 @@ export default function Dashboard() {
       data={data}
       cardAdopted={cardAdopted}
       hasOrder={data.hasOrder}
+      hasTracking={data.hasTracking}
       onGoToMarketplace={() => setPage(1)}
       onTrackOrder={() => setShowOrderTracking(true)}
       onGoToCard={() => setPage(2)}

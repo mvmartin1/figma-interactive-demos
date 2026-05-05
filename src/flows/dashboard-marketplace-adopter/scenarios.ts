@@ -35,6 +35,7 @@ export type DashboardData = {
     currentBalance: number;
   };
   hasOrder: boolean;
+  hasTracking: boolean;
 };
 
 const BASE_DATA = {
@@ -72,6 +73,7 @@ export const scenarios: Record<string, Scenario<DashboardData>> = {
       ...BASE_DATA,
       card: { adopted: false, creditLimit: 1500, currentBalance: 0 },
       hasOrder: true,
+      hasTracking: true,
     },
   },
   marketplaceNoOrder: {
@@ -80,6 +82,7 @@ export const scenarios: Record<string, Scenario<DashboardData>> = {
       ...BASE_DATA,
       card: { adopted: false, creditLimit: 1500, currentBalance: 0 },
       hasOrder: false,
+      hasTracking: true,
     },
   },
   cardAdopter: {
@@ -88,6 +91,16 @@ export const scenarios: Record<string, Scenario<DashboardData>> = {
       ...BASE_DATA,
       card: { adopted: true, creditLimit: 1500, currentBalance: 0 },
       hasOrder: true,
+      hasTracking: true,
+    },
+  },
+  cardAdopterNoTracking: {
+    label: 'Marketplace + Card Adopter – No Tracking',
+    data: {
+      ...BASE_DATA,
+      card: { adopted: true, creditLimit: 1500, currentBalance: 0 },
+      hasOrder: true,
+      hasTracking: false,
     },
   },
 };
