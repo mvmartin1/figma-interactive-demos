@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 64 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group">
+<rect id="Rectangle 2" y="7" width="3" height="4" rx="1" fill="var(--fill-0, #111111)"/>
+<rect id="Rectangle 2.1" x="4" y="5" width="3" height="6" rx="1" fill="var(--fill-0, #111111)"/>
+<rect id="Rectangle 2.2" x="9" y="3" width="3" height="8" rx="1" fill="var(--fill-0, #111111)"/>
+<rect id="Rectangle 2.3" x="14" y="1" width="3" height="10" rx="1" fill="var(--fill-0, #111111)"/>
+<path id="Rectangle 3 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M61 1H45C43.8954 1 43 1.89543 43 3V9C43 10.1046 43.8954 11 45 11H61C62.1046 11 63 10.1046 63 9V3C63 1.89543 62.1046 1 61 1ZM45 0C43.3431 0 42 1.34315 42 3V9C42 10.6569 43.3431 12 45 12H61C62.6569 12 64 10.6569 64 9V3C64 1.34315 62.6569 0 61 0H45Z" fill="var(--fill-0, #111111)"/>
+<rect id="Rectangle 4" x="44" y="2" width="14" height="8" rx="1" fill="var(--fill-0, #111111)"/>
+<path id="Subtract" d="M29.0002 8C29.8286 8.00004 30.5753 8.33341 31.1203 8.87793L29.0002 11L26.8791 8.87891C27.4241 8.33387 28.1712 8 29.0002 8ZM29.0002 4C30.9334 4.00004 32.6805 4.78114 33.9494 6.0498L32.5343 7.46387C31.6296 6.55961 30.3803 6.00004 29.0002 6C27.6195 6 26.3688 6.55909 25.464 7.46387L24.05 6.0498C25.3189 4.78091 27.0666 4 29.0002 4ZM29.0002 0C32.0377 3.94277e-05 34.7879 1.2311 36.7785 3.22168L35.3644 4.63574C33.7358 3.0071 31.4854 2.00004 29.0002 2C26.5149 2 24.2646 3.00711 22.6359 4.63574L21.2218 3.22168C23.2124 1.23111 25.9626 0 29.0002 0Z" fill="var(--fill-0, #111111)"/>
+</g>
+</svg>

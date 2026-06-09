@@ -6,34 +6,27 @@ import marketplacePromoImg from '../assets/marketplace-promo.png';
 import creditCardPromoImg from '../assets/credit-card-promo.png';
 import creditCardHeroImg from '../assets/credit-card-hero.png';
 import smallCardImg from '../assets/small-card.png';
+import hourglassImg from '../assets/hourglass-icon.svg';
+import bellLightImg from '../assets/bell-light.svg';
+import bellDarkImg from '../assets/bell-dark.svg';
+import cartLightImg from '../assets/cart-light.svg';
+import cartDarkImg from '../assets/cart-dark.svg';
+import chipDotLightImg from '../assets/chip-dot-light.svg';
+import chipDotDarkImg from '../assets/chip-dot-dark.svg';
+import mpIconImg from '../assets/mp-icon.svg';
+import otThumbImg from '../assets/ot-thumb.png';
+import overlimitWarningImg from '../assets/overlimit-warning.svg';
 
 const A = {
-  statusIconsLight: 'https://www.figma.com/api/mcp/asset/ca9e9def-f65c-4160-b2c5-54a28bf59f70',
-  avatarLight: 'https://www.figma.com/api/mcp/asset/81b067db-a74c-4d9f-86f2-ccdeb7a6f9ed',
-  bellLight: 'https://www.figma.com/api/mcp/asset/15c67016-c195-4d72-aa96-0e59e5ec0b3b',
-  cartLight: 'https://www.figma.com/api/mcp/asset/be347575-7c0e-4209-bebc-2e73e17c2891',
-  chipDotLight: 'https://www.figma.com/api/mcp/asset/5f5feaf7-8093-43dd-9ea6-a10d4286c18d',
-  mpIcon: 'https://www.figma.com/api/mcp/asset/f0791ce3-86f9-465f-9a48-8988bb16f144',
-  trackIllus: 'https://www.figma.com/api/mcp/asset/e6e44f41-500c-47c2-bf4e-ecaafe6b98fb',
-  creditGraphMask: 'https://www.figma.com/api/mcp/asset/4fa163ef-1057-45d6-842d-962467cf974b',
-  airpods: 'https://www.figma.com/api/mcp/asset/7653d988-acbc-4d94-ac36-b3e0eb8304a6',
-  perpayLogoWhite: 'https://www.figma.com/api/mcp/asset/bef39456-12a7-4349-8cff-b3c33ef61f63',
-  statusIconsDark: 'https://www.figma.com/api/mcp/asset/499baf44-6aad-4d18-a622-9dada11d008e',
-  avatarDark: 'https://www.figma.com/api/mcp/asset/155c405b-f0dd-4c00-959c-1a402b59c0eb',
-  bellDark: 'https://www.figma.com/api/mcp/asset/0274cc20-639b-4a72-a73b-cefc562bc4b2',
-  cartDark: 'https://www.figma.com/api/mcp/asset/c91ff87a-afa6-44bb-9b6b-fe36826dc008',
-  chipDotDark: 'https://www.figma.com/api/mcp/asset/ee8a5793-df01-43a3-aefc-966da80c00b2',
-  utilizationFill: 'https://www.figma.com/api/mcp/asset/62b6bcf7-61e0-47d5-9e9d-98577b9dfe0e',
-  polygonUp: 'https://www.figma.com/api/mcp/asset/a0154774-d8c2-4059-ae27-7df033418cc6',
-  paymentIcon: 'https://www.figma.com/api/mcp/asset/b0748392-7562-4057-b9a8-ffc8c695efae',
-  checkIcon: 'https://www.figma.com/api/mcp/asset/d3cede26-3a1f-4a02-aae6-09d2be4553b2',
-  appleLogo: 'https://www.figma.com/api/mcp/asset/09f47101-60c7-4f99-a557-b55d4d84040f',
-  brandLogo2: 'https://www.figma.com/api/mcp/asset/90d05dda-25c2-4fe4-bf76-f1bcbb6f2144',
-  brandLogo3: 'https://www.figma.com/api/mcp/asset/5b23980e-3a2c-4c12-ab38-0af44bfc1a01',
-  appleLogo2: 'https://www.figma.com/api/mcp/asset/00587614-6417-4417-93d3-955fb30d745d',
-  kitchenaid: 'https://www.figma.com/api/mcp/asset/97788f12-fd9e-4aa9-b358-77fb9cfc5ec8',
-  otProductThumb: 'https://www.figma.com/api/mcp/asset/85fc4cd3-e5f6-4fe4-9ada-616f042cdada',
-  otCheckmark: 'https://www.figma.com/api/mcp/asset/8678ef32-9f89-4639-b1e0-341e9729c07d',
+  bellLight: bellLightImg,
+  bellDark: bellDarkImg,
+  cartLight: cartLightImg,
+  cartDark: cartDarkImg,
+  chipDotLight: chipDotLightImg,
+  chipDotDark: chipDotDarkImg,
+  mpIcon: mpIconImg,
+  otProductThumb: otThumbImg,
+  overlimitWarningIcon: overlimitWarningImg,
 };
 
 // ─── SVG Icons ───────────────────────────────────────────────────────────────
@@ -172,13 +165,29 @@ function CreditBuildingGraph() {
 
 const CHIPS = [
   { key: 'all', label: 'All' },
-  { key: 'marketplace', label: 'Marketplace', hasNotif: true },
+  { key: 'marketplace', label: 'Marketplace' },
   { key: 'card', label: 'Card' },
-  { key: 'cash', label: 'Cash' },
-  { key: 'billpay', label: 'Bill Pay' },
+  { key: 'cash', label: 'Cash Assist' },
+  { key: 'billpay', label: 'Bill Splitter' },
   { key: 'savings', label: 'Savings' },
 ] as const;
 const PAGE_COUNT = CHIPS.length;
+
+type NotifColor = 'blue' | 'yellow' | 'red';
+type ChipNotifs = Partial<Record<string, NotifColor>>;
+
+const NOTIF_DOT_COLORS: Record<NotifColor, string> = {
+  blue: '#2e71ea',
+  yellow: '#EBB323',
+  red: '#D93025',
+};
+
+function getChipNotifs(data: DashboardData): ChipNotifs {
+  const n: ChipNotifs = {};
+  if (data.hasOrder && data.hasTracking) n['marketplace'] = 'blue';
+  if (data.card.isOverlimit) n['card'] = 'yellow';
+  return n;
+}
 
 // Deliberate thresholds — requires intent, not accidental brushes
 const SWIPE_THRESHOLD = 60;       // px for slow swipe
@@ -191,9 +200,10 @@ type ChipBarProps = {
   pageIndex: number;
   isDark: boolean;
   onSelect: (i: number) => void;
+  notifs: ChipNotifs;
 };
 
-function ChipBar({ pageIndex, isDark, onSelect }: ChipBarProps) {
+function ChipBar({ pageIndex, isDark, onSelect, notifs }: ChipBarProps) {
   return (
     <div className={styles.chipBar}>
       {CHIPS.map((c, i) => {
@@ -203,16 +213,16 @@ function ChipBar({ pageIndex, isDark, onSelect }: ChipBarProps) {
           : isDark
           ? styles.chipUnselectedDark
           : styles.chipUnselectedLight;
+        const notifColor = notifs[c.key];
         return (
           <div key={c.key} className={styles.chipWrapper}>
             <button className={`${styles.chip} ${chipClass}`} onClick={() => onSelect(i)}>
               {c.label}
             </button>
-            {'hasNotif' in c && c.hasNotif && !isSelected && (
-              <img
-                src={isDark ? A.chipDotDark : A.chipDotLight}
-                alt=""
+            {notifColor && !isSelected && (
+              <span
                 className={styles.chipNotifDot}
+                style={{ background: NOTIF_DOT_COLORS[notifColor] }}
               />
             )}
           </div>
@@ -222,9 +232,73 @@ function ChipBar({ pageIndex, isDark, onSelect }: ChipBarProps) {
   );
 }
 
+// ─── Bank Payment Screen ─────────────────────────────────────────────────────
+
+function BankPaymentScreen({ amount, onBack }: { amount: number; onBack: () => void }) {
+  const [paid, setPaid] = useState(false);
+
+  const handlePay = () => {
+    setPaid(true);
+    setTimeout(onBack, 2200);
+  };
+
+  return (
+    <div className={styles.bankPayScreen}>
+      <div className={styles.bankPayHeader}>
+        <button className={styles.bankPayBack} onClick={onBack}>
+          <ChevronLeft size={24} color="white" />
+        </button>
+        <span className={styles.bankPayHeaderTitle}>Make Payment</span>
+        <div style={{ width: 32 }} />
+      </div>
+
+      {!paid ? (
+        <>
+          <div className={styles.bankPayAmountSection}>
+            <p className={styles.bankPayAmountLabel}>Amount Due</p>
+            <p className={styles.bankPayAmountValue}>${amount}</p>
+            <p className={styles.bankPayAmountSub}>Overlimit balance</p>
+          </div>
+
+          <div className={styles.bankPayBody}>
+            <div className={styles.bankPayMethodCard}>
+              <div className={styles.bankPayBankIconWrap}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 10L12 3L21 10V20C21 20.5523 20.5523 21 20 21H15V15H9V21H4C3.44772 21 3 20.5523 3 20V10Z" stroke="white" strokeWidth="1.6" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div className={styles.bankPayBankInfo}>
+                <p className={styles.bankPayBankName}>Chase Checking</p>
+                <p className={styles.bankPayBankSub}>••••4521 · Available $1,240.00</p>
+              </div>
+              <span className={styles.bankPaySelectedCheck}>
+                <CheckLineIcon size={20} color="#049B82" />
+              </span>
+            </div>
+
+            <div style={{ flex: 1 }} />
+            <p className={styles.bankPayDisclosure}>Payment processes immediately. Funds typically clear within 1–2 business days.</p>
+            <button className={styles.bankPayBtn} onClick={handlePay}>
+              Pay ${amount} now
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className={styles.bankPaySuccessBody}>
+          <div className={styles.bankPaySuccessRing}>
+            <CheckLineIcon size={32} color="white" />
+          </div>
+          <p className={styles.bankPaySuccessTitle}>Payment Sent!</p>
+          <p className={styles.bankPaySuccessSub}>Your payment of ${amount} is being processed and will post within 1–2 business days.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── All page content ────────────────────────────────────────────────────────
 
-function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplace, onTrackOrder, onGoToCard, onGoToCash, onOpenShop }: {
+function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplace, onTrackOrder, onGoToCard, onGoToCash, onGoToBillSplitter, onBankPayment }: {
   data: DashboardData;
   cardAdopted: boolean;
   hasOrder: boolean;
@@ -233,183 +307,159 @@ function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplac
   onTrackOrder: () => void;
   onGoToCard: () => void;
   onGoToCash: () => void;
-  onOpenShop: () => void;
+  onGoToBillSplitter: () => void;
+  onBankPayment: () => void;
 }) {
+  const isOverlimit = data.card.isOverlimit ?? false;
+  const cardAvailable = data.card.creditLimit - data.card.currentBalance;
+
   return (
     <div className={styles.pageContent}>
 
       {/* ── Top product cards ── */}
       <div className={styles.cardGroup}>
-        {cardAdopted ? (
-          <div className={styles.mpCcCardContainer}>
-            {/* Marketplace row */}
-            <div
-              className={styles.cardContent}
-              style={{ cursor: 'pointer', borderBottom: '1px solid #e9eef5' }}
-              onClick={onGoToMarketplace}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && onGoToMarketplace()}
-            >
-              <div className={styles.mpCardTop} style={{ marginBottom: hasOrder && hasTracking ? 16 : 0 }}>
-                <div className={styles.mpCardLeft}>
-                  <div className={styles.mpCardIcon}>
-                    <img src={A.mpIcon} alt="" className={styles.mpCardIconImg} />
-                  </div>
-                  <span className={styles.mpCardTitle}>Marketplace</span>
-                </div>
-                <div className={styles.mpCardRight}>
-                  <div className={styles.mpCardAmountRow}>
-                    <span className={styles.mpCardAmount}>${data.spending.marketplaceAvailable.toLocaleString()}</span>
-                    <span className={styles.mpCardAmountSub}>Available</span>
-                  </div>
-                  <ChevronRight size={18} color="#113355" />
-                </div>
-              </div>
-              {hasOrder && hasTracking && (
-                <div className={styles.trackOrderStrip}>
-                  <img src={A.trackIllus} alt="" className={styles.trackIllusImg} />
-                  <button
-                    className={styles.trackOrderLink}
-                    onClick={(e) => { e.stopPropagation(); onTrackOrder(); }}
-                  >
-                    Track order <ArrowRight size={18} color="#2e71ea" />
-                  </button>
-                </div>
-              )}
-            </div>
-            {/* Credit Card row */}
-            <div
-              className={styles.cardContent}
-              style={{ cursor: 'pointer' }}
-              onClick={onGoToCard}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && onGoToCard()}
-            >
-              <div className={styles.mpCardTop} style={{ marginBottom: hasTracking ? 16 : 0 }}>
-                <div className={styles.mpCardLeft}>
-                  <div className={styles.mpCardIcon}>
-                    <img src={A.mpIcon} alt="" className={styles.mpCardIconImg} />
-                  </div>
-                  <span className={styles.mpCardTitle}>Credit Card</span>
-                </div>
-                <div className={styles.mpCardRight}>
-                  <div className={styles.mpCardAmountRow}>
-                    <span className={styles.mpCardAmount}>$1,500</span>
-                    <span className={styles.mpCardAmountSub}>Available</span>
-                  </div>
-                  <ChevronRight size={18} color="#113355" />
-                </div>
-              </div>
-              {hasTracking && (
-                <div className={styles.trackCardStrip}>
-                  <img src={smallCardImg} alt="" className={styles.miniCard} />
-                  <button
-                    className={styles.trackOrderLink}
-                    onClick={(e) => { e.stopPropagation(); onGoToCard(); }}
-                  >
-                    Track Card <ArrowRight size={18} color="#2e71ea" />
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        ) : (
-          <>
-            <div
-              className={styles.card}
-              style={{ cursor: 'pointer' }}
-              onClick={onGoToMarketplace}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && onGoToMarketplace()}
-              aria-label="Open Marketplace details"
-            >
-              <div className={styles.cardContent}>
-                <div className={styles.mpCardTop} style={{ marginBottom: hasOrder && hasTracking ? 16 : 0 }}>
-                  <div className={styles.mpCardLeft}>
-                    <div className={styles.mpCardIcon}>
-                      <img src={A.mpIcon} alt="" className={styles.mpCardIconImg} />
-                    </div>
-                    <span className={styles.mpCardTitle}>Marketplace</span>
-                  </div>
-                  <div className={styles.mpCardRight}>
-                    <div className={styles.mpCardAmountRow}>
-                      <span className={styles.mpCardAmount}>${data.spending.marketplaceAvailable.toLocaleString()}</span>
-                      <span className={styles.mpCardAmountSub}>Available</span>
-                    </div>
-                    <ChevronRight size={18} color="#113355" />
-                  </div>
-                </div>
-                {hasOrder && hasTracking && (
-                  <div className={styles.trackOrderStrip}>
-                    <img src={A.trackIllus} alt="" className={styles.trackIllusImg} />
-                    <button
-                      className={styles.trackOrderLink}
-                      onClick={(e) => { e.stopPropagation(); onTrackOrder(); }}
-                    >
-                      Track order <ArrowRight size={18} color="#2e71ea" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-            {!hasOrder && (
-              <div
-                className={styles.cardDashed}
-                style={{ cursor: 'pointer' }}
-                onClick={onOpenShop}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && onOpenShop()}
-              >
-                <div className={styles.dashedCardRow}>
-                  <div className={styles.dashedCardLeft}>
-                    <div className={styles.mpCardIcon}><img src={A.mpIcon} alt="" className={styles.mpCardIconImg} /></div>
-                    <span className={styles.dashedCardTitle}>Browse the Marketplace</span>
-                  </div>
-                  <ChevronRight size={18} color="#9aa3b2" />
-                </div>
-              </div>
-            )}
-            <div
-              className={styles.cardDashed}
-              style={{ cursor: 'pointer' }}
-              onClick={onGoToCard}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && onGoToCard()}
-            >
-              <div className={styles.dashedCardRow}>
-                <div className={styles.dashedCardLeft}>
-                  <div className={styles.mpCardIcon}><img src={A.mpIcon} alt="" className={styles.mpCardIconImg} /></div>
-                  <span className={styles.dashedCardTitle}>Check Card Eligibility</span>
-                </div>
-                <ChevronRight size={18} color="#9aa3b2" />
-              </div>
-            </div>
-          </>
-        )}
-
-        {(hasOrder || cardAdopted) && (
-          <div
-            className={styles.cardDashed}
-            style={{ cursor: 'pointer' }}
-            onClick={onGoToCash}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && onGoToCash()}
-          >
-            <div className={styles.dashedCardRow}>
-              <div className={styles.dashedCardLeft}>
-                <div className={styles.mpCardIcon}><img src={A.mpIcon} alt="" className={styles.mpCardIconImg} /></div>
-                <span className={styles.dashedCardTitle}>Get up to $500 in cash</span>
-              </div>
+        {/* Marketplace */}
+        <div
+          className={styles.productCard}
+          style={{ cursor: 'pointer' }}
+          onClick={onGoToMarketplace}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && onGoToMarketplace()}
+          aria-label="Open Marketplace details"
+        >
+          <div className={styles.productCardBody}>
+            <div className={styles.productCardHeader}>
+              <span className={styles.productCardTitle}>Marketplace</span>
               <ChevronRight size={18} color="#9aa3b2" />
             </div>
+            <div className={styles.productCardValueRow}>
+              <span className={styles.productCardValue}>${data.spending.marketplaceAvailable.toLocaleString()}</span>
+              <span className={styles.productCardSubvalue}>left to spend</span>
+            </div>
+            {hasOrder && hasTracking && (
+              <div className={styles.productCardStrip}>
+                <div className={styles.productCardStripLeft}>
+                  <div className={styles.orderThumbCircle}>
+                    <img src={A.otProductThumb} alt="" className={styles.orderThumbCircleImg} />
+                  </div>
+                </div>
+                <button
+                  className={styles.trackOrderLink}
+                  onClick={(e) => { e.stopPropagation(); onTrackOrder(); }}
+                >
+                  Check order status <ArrowRight size={18} color="#2e71ea" />
+                </button>
+              </div>
+            )}
           </div>
-        )}
+        </div>
+
+        {/* Credit Card */}
+        <div
+          className={styles.productCard}
+          style={{ cursor: 'pointer' }}
+          onClick={onGoToCard}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && onGoToCard()}
+          aria-label="Open Credit Card details"
+        >
+          <div className={styles.productCardBody}>
+            <div className={styles.productCardHeader}>
+              <span className={styles.productCardTitle}>Credit Card</span>
+              <ChevronRight size={18} color="#9aa3b2" />
+            </div>
+            <div className={styles.productCardValueRow}>
+              {cardAdopted && isOverlimit ? (
+                <>
+                  <span className={styles.productCardValue}>${data.card.currentBalance}</span>
+                  <span className={`${styles.productCardSubvalue} ${styles.productCardSubvalueOverlimit}`}>Overlimit</span>
+                </>
+              ) : cardAdopted ? (
+                <>
+                  <span className={styles.productCardValue}>${cardAvailable.toLocaleString()}</span>
+                  <span className={styles.productCardSubvalue}>Available Credit</span>
+                </>
+              ) : (
+                <>
+                  <span className={styles.productCardValue}>${data.card.creditLimit.toLocaleString()}</span>
+                  <span className={styles.productCardSubvalue}>Apply now</span>
+                </>
+              )}
+            </div>
+            {cardAdopted && isOverlimit && (
+              <div className={styles.productCardStrip}>
+                <div className={styles.productCardStripLeft}>
+                  <img src={A.overlimitWarningIcon} alt="" className={styles.orderThumbCircleImg} />
+                </div>
+                <button
+                  className={styles.trackOrderLink}
+                  onClick={(e) => { e.stopPropagation(); onBankPayment(); }}
+                >
+                  Make bank payment <ArrowRight size={18} color="#2e71ea" />
+                </button>
+              </div>
+            )}
+            {cardAdopted && !isOverlimit && hasTracking && (
+              <div className={styles.productCardStrip}>
+                <div className={styles.productCardStripLeft}>
+                  <img src={smallCardImg} alt="" className={styles.miniCard} />
+                </div>
+                <button
+                  className={styles.trackOrderLink}
+                  onClick={(e) => { e.stopPropagation(); onGoToCard(); }}
+                >
+                  Track card <ArrowRight size={18} color="#2e71ea" />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Cash Assist */}
+        <div
+          className={styles.productCard}
+          style={{ cursor: 'pointer' }}
+          onClick={onGoToCash}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && onGoToCash()}
+          aria-label="Open Cash Assist details"
+        >
+          <div className={styles.productCardBody}>
+            <div className={styles.productCardHeader}>
+              <span className={styles.productCardTitle}>Cash Assist</span>
+              <ChevronRight size={18} color="#9aa3b2" />
+            </div>
+            <div className={styles.productCardValueRow}>
+              <span className={styles.productCardValue}>$53</span>
+              <span className={styles.productCardSubvalue}>left to repay</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Bill Splitter */}
+        <div
+          className={styles.productCard}
+          style={{ cursor: 'pointer' }}
+          onClick={onGoToBillSplitter}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && onGoToBillSplitter()}
+          aria-label="Open Bill Splitter details"
+        >
+          <div className={styles.productCardBody}>
+            <div className={styles.productCardHeader}>
+              <span className={styles.productCardTitle}>Bill Splitter</span>
+              <ChevronRight size={18} color="#9aa3b2" />
+            </div>
+            <div className={styles.productCardValueRow}>
+              <span className={styles.productCardValue}>100%</span>
+              <span className={styles.productCardSubvalue}>Covered</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* ── Credit Building Progress ── */}
@@ -571,13 +621,11 @@ function MarketplaceContent({ data, hasOrder, onTrackOrder }: { data: DashboardD
           </div>
           <div className={styles.mpL2BarArea}>
             <div className={styles.mpL2BarTrack}>
-              <div className={styles.mpL2BarFill} style={{ width: fillWidth }}>
-                <img src={A.utilizationFill} alt="" className={styles.mpL2BarFillImg} />
-              </div>
+              <div className={styles.mpL2BarFill} style={{ width: fillWidth }} />
             </div>
             <div className={styles.mpL2CurrentMarker} style={{ left: `${balancePct}%` }}>
               <span className={styles.mpL2MarkerLabel}>${data.spending.currentBalance}</span>
-              <img src={A.polygonUp} alt="" className={styles.mpL2MarkerTriangle} />
+              <span className={styles.mpL2MarkerTriangle} />
             </div>
             <span className={styles.mpL2MaxLabel}>${data.spending.totalLimit}</span>
           </div>
@@ -587,17 +635,17 @@ function MarketplaceContent({ data, hasOrder, onTrackOrder }: { data: DashboardD
       <div className={styles.favoritesRow}>
         <div className={styles.favoritesCard}>
           <div className={styles.favBrandLogos}>
-            <div className={styles.favBrandLogo}><img src={A.appleLogo} alt="" className={styles.favBrandLogoImg} /></div>
-            <div className={styles.favBrandLogo}><img src={A.brandLogo2} alt="" className={styles.favBrandLogoImg} /></div>
-            <div className={styles.favBrandLogo}><img src={A.brandLogo3} alt="" className={styles.favBrandLogoImg} /></div>
+            <div className={styles.favBrandLogo} style={{ background: '#e8f0fe' }} />
+            <div className={styles.favBrandLogo} style={{ background: '#fce8e6' }} />
+            <div className={styles.favBrandLogo} style={{ background: '#e6f4ea' }} />
           </div>
           <span className={styles.favLabel}>Your Favorites</span>
         </div>
         <div className={styles.favoritesCard}>
           <div className={styles.favBrandLogos}>
-            <div className={styles.favBrandLogo}><img src={A.appleLogo2} alt="" className={styles.favBrandLogoImg} /></div>
-            <div className={styles.favBrandLogo} style={{ background: '#b42c2c' }}><img src={A.kitchenaid} alt="" className={styles.favBrandLogoImg} style={{ filter: 'brightness(5)' }} /></div>
-            <div className={styles.favBrandLogo}><img src={A.brandLogo3} alt="" className={styles.favBrandLogoImg} /></div>
+            <div className={styles.favBrandLogo} style={{ background: '#fff3e0' }} />
+            <div className={styles.favBrandLogo} style={{ background: '#b42c2c' }} />
+            <div className={styles.favBrandLogo} style={{ background: '#f3e5f5' }} />
           </div>
           <span className={styles.favLabel}>Your Top Brands</span>
         </div>
@@ -639,7 +687,7 @@ function MarketplaceContent({ data, hasOrder, onTrackOrder }: { data: DashboardD
               <div className={styles.paymentCardTop}>
                 <div className={styles.paymentLeft}>
                   <div className={styles.paymentIconWrap}>
-                    <img src={A.paymentIcon} alt="" className={styles.paymentIconImg} />
+                    <CalendarCheckLineIcon />
                   </div>
                   <div>
                     <div className={styles.paymentName}>Next paycheck</div>
@@ -649,7 +697,7 @@ function MarketplaceContent({ data, hasOrder, onTrackOrder }: { data: DashboardD
                 <span className={styles.paymentAmount}>${data.payments.nextPaycheckAmount.toFixed(2)}</span>
               </div>
               <div className={styles.paymentCoversBadge}>
-                <img src={A.checkIcon} alt="" className={styles.paymentCoversBadgeIcon} />
+                <span className={styles.paymentCoversBadgeIcon}><CheckLineIcon size={16} color="#049B82" /></span>
                 <span>Covers required minimum amount</span>
               </div>
               <div className={styles.paymentDivider} />
@@ -738,11 +786,120 @@ function CardAdoptedContent({ creditLimit }: { creditLimit: number }) {
   );
 }
 
-function CardContent({ onApply, cardAdopted, creditLimit }: {
+const CARD_ACTIVITY = [
+  { merchant: 'REANIMATOR', date: '01/01/2026', amount: '$7.43' },
+  { merchant: 'Netflix', date: '01/07/2026', amount: '$19.64' },
+  { merchant: 'Payment', date: '01/01/2026', amount: '$50.00' },
+  { merchant: 'Starbucks', date: '01/07/2026', amount: '$10.32' },
+];
+
+function CardOverlimitContent({ data, onBankPayment }: { data: DashboardData; onBankPayment: () => void }) {
+  const [expanded, setExpanded] = useState(false);
+  const overlimitAmount = data.card.currentBalance;
+  const creditLimit = data.card.creditLimit;
+
+  return (
+    <div className={styles.cardAdoptedPageContent}>
+
+      <div className={styles.cardAdoptedHero}>
+        <p className={styles.cardAdoptedLimitLabel}>Overlimit</p>
+        <p className={styles.cardAdoptedLimit}>${overlimitAmount}</p>
+      </div>
+
+      {/* ── Notifications ── */}
+      <div className={styles.notificationSection}>
+        {/* Notification 1: Overlimit — always visible */}
+        <div className={styles.notificationCardWrap}>
+          <div className={styles.notificationCard}>
+            <div className={styles.notificationCardTop}>
+              <img src={A.overlimitWarningIcon} alt="" className={styles.notificationIcon} />
+              <div className={styles.notificationText}>
+                <p className={styles.notificationTitle}>Your card is over the limit</p>
+                <p className={styles.notificationBody}>Your card is currently over it's limit. Make a payment to reduce your balance.</p>
+              </div>
+            </div>
+            <button className={styles.makeBankPaymentBtn} onClick={onBankPayment}>Make bank payment</button>
+          </div>
+          {/* Count badge — hidden once expanded */}
+          {!expanded && <div className={styles.countBadge}>2</div>}
+        </div>
+
+        {/* Notification 2: Card Reshipping — animated, directly below #1 */}
+        <div className={`${styles.notification2Wrap} ${expanded ? styles.notification2WrapVisible : ''}`}>
+          <div className={styles.notification2Card}>
+            <div className={styles.notificationCardTop}>
+              <img src={hourglassImg} alt="" className={styles.notification2Icon} />
+              <div className={styles.notificationText}>
+                <p className={styles.notificationTitle}>Card Shipped</p>
+                <p className={styles.notificationBody}>Estimated arrival: June 5th</p>
+              </div>
+            </div>
+            <button className={styles.trackBtn}>Track</button>
+          </div>
+        </div>
+
+        {/* Toggle: below all notifications */}
+        <button className={styles.seeMoreToggle} onClick={() => setExpanded(!expanded)}>
+          {expanded ? 'Tap to see 1 less' : 'Tap to see 1 more'}
+        </button>
+      </div>
+
+      {/* ── Progress bar ── */}
+      <div className={styles.cardBalanceCard}>
+        <div className={styles.overlimitProgressBarWrap}>
+          <div className={styles.overlimitProgressBar} />
+        </div>
+        <div className={styles.cardBalanceBarLabels}>
+          <span className={styles.cardBalanceBarLabel}>${(creditLimit + overlimitAmount).toLocaleString()} spent</span>
+          <span className={styles.cardBalanceBarLabel}>of ${creditLimit.toLocaleString()} limit</span>
+        </div>
+      </div>
+
+      {/* ── Activity ── */}
+      <div className={styles.cardActivitySection}>
+        <div className={styles.overlimitActivityCard}>
+          <p className={styles.cardActivityLabel}>Activity</p>
+          <div className={styles.overlimitActivityDivider} />
+          {CARD_ACTIVITY.map((item, i) => (
+            <div key={i}>
+              <div className={styles.overlimitActivityRow}>
+                <div>
+                  <p className={styles.overlimitActivityMerchant}>{item.merchant}</p>
+                  <p className={styles.overlimitActivityDate}>{item.date}</p>
+                </div>
+                <p className={styles.overlimitActivityAmount}>{item.amount}</p>
+              </div>
+              {i < CARD_ACTIVITY.length - 1 && <div className={styles.overlimitActivityRowDivider} />}
+            </div>
+          ))}
+          <div className={styles.overlimitActivityDivider} />
+          <button className={styles.viewMoreBtn}>View More</button>
+        </div>
+      </div>
+
+      {/* ── Card Management ── */}
+      <div className={styles.cardMgmtCard}>
+        <p className={styles.cardMgmtHeader}>Card Management</p>
+        {CARD_MGMT_ITEMS.map((label, i) => (
+          <div key={i} className={styles.cardMgmtItem}>
+            <span className={styles.cardMgmtItemLabel}>{label}</span>
+            <ChevronRight size={18} color="#9aa3b2" />
+          </div>
+        ))}
+      </div>
+
+    </div>
+  );
+}
+
+function CardContent({ onApply, cardAdopted, creditLimit, data, onBankPayment }: {
   onApply: () => void;
   cardAdopted: boolean;
   creditLimit: number;
+  data: DashboardData;
+  onBankPayment: () => void;
 }) {
+  if (cardAdopted && data.card.isOverlimit) return <CardOverlimitContent data={data} onBankPayment={onBankPayment} />;
   if (cardAdopted) return <CardAdoptedContent creditLimit={creditLimit} />;
 
   return (
@@ -808,6 +965,79 @@ function CardApprovalOverlay({ show, onBack }: { show: boolean; onBack: () => vo
       </div>
       <div className={styles.approvalFooter}>
         <button className={styles.approvalBtn} onClick={onBack}>Back to dashboard</button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Gradient Test: shared product page template ─────────────────────────────
+//
+// Used by the `allActiveGradientTest1` scenario. Every active-product tab
+// renders this exact layout so swiping between Marketplace, Card, Cash Assist,
+// and Bill Splitter has zero vertical shift — only the gradient background
+// and the hero amount change.
+
+const CARD_MGMT_LIST = [
+  'Statements & Documents',
+  'Add Card To Wallet',
+  'Freeze Card',
+  'Settings',
+  'Need help? Contact Us',
+];
+const LOAN_MGMT_LIST = [
+  'Statements & Documents',
+  'Settings',
+  'Need help? Contact Us',
+];
+
+type GradientTestPageProps = {
+  topLabel: string;
+  bigText: string;
+  dimSuffix?: string;
+  totalLimit: number;
+  managementTitle: string;
+  managementItems: string[];
+};
+
+function GradientTestPage({ topLabel, bigText, dimSuffix, totalLimit, managementTitle, managementItems }: GradientTestPageProps) {
+  return (
+    <div className={styles.gradTestPage}>
+      <div className={styles.gradTestHero}>
+        <p className={styles.gradTestHeroLabel}>{topLabel}</p>
+        <div className={styles.gradTestHeroAmountRow}>
+          <span className={styles.gradTestHeroMain}>{bigText}</span>
+          {dimSuffix && <span className={styles.gradTestHeroDim}>{dimSuffix}</span>}
+        </div>
+      </div>
+
+      <div className={styles.gradTestBalanceCard}>
+        <div className={styles.gradTestBalanceRow}>
+          <span className={styles.gradTestBalanceLabel}>Current Balance: $0</span>
+          <span className={styles.gradTestBalanceDots}>···</span>
+        </div>
+        <div className={styles.gradTestBalanceBarWrap}>
+          <div className={styles.gradTestBalanceBar} />
+          <span className={styles.gradTestBalanceBarLeftLabel}>$0</span>
+          <span className={styles.gradTestBalanceBarRightLabel}>${totalLimit}</span>
+        </div>
+      </div>
+
+      <div className={styles.gradTestSectionCard}>
+        <p className={styles.gradTestSectionTitle}>Activity</p>
+        <div className={styles.gradTestEmptyCard}>
+          <p className={styles.gradTestEmptyTitle}>Keep track easily</p>
+          <p className={styles.gradTestEmptySub}>Future payments and transactions will pop up here</p>
+        </div>
+      </div>
+
+      <div className={styles.gradTestMgmtCard}>
+        <p className={styles.gradTestMgmtHeader}>{managementTitle}</p>
+        {managementItems.map((label) => (
+          <div key={label} className={styles.gradTestMgmtItem}>
+            <span className={styles.gradTestMgmtItemLabel}>{label}</span>
+            <ChevronRight size={18} color="#9aa3b2" />
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -974,7 +1204,7 @@ function OrderTrackingOverlay({ data, show, onBack }: { data: DashboardData; sho
           {steps.map((step, i) => (
             <div key={i} className={styles.otStepRow}>
               <div className={styles.otStepLeftCol}>
-                <img src={A.otCheckmark} className={styles.otCheckIcon} alt="" />
+                <span className={styles.otCheckIcon}><CheckLineIcon size={16} color="#049B82" /></span>
                 {i < steps.length - 1 && <div className={styles.otConnector} />}
               </div>
               <div className={styles.otStepContent}>
@@ -1007,10 +1237,13 @@ export default function Dashboard() {
   const [isDragging, setIsDragging] = useState(false);
   const [screenW, setScreenW] = useState(375);
   const [showOrderTracking, setShowOrderTracking] = useState(false);
+  const [showBankPayment, setShowBankPayment] = useState(false);
   const [cardAdopted, setCardAdopted] = useState(data.card.adopted);
   const [showCardApplying, setShowCardApplying] = useState(false);
   const [showCardApproval, setShowCardApproval] = useState(false);
   const [activeNav, setActiveNav] = useState<'home' | 'shop'>('home');
+
+  const chipNotifs = getChipNotifs(data);
 
   const handleApplyNow = () => {
     setShowCardApplying(true);
@@ -1151,53 +1384,138 @@ export default function Dashboard() {
   const rawX = baseX + (isDragging ? dragOffset : 0);
   const clampedX = Math.max(-(PAGE_COUNT - 1) * screenW, Math.min(0, rawX));
 
-  // darkProgress peaks at 1 when on Marketplace (index 1)
+  // Progress values peak at 1 when the corresponding page is centered.
   const darkProgress = Math.max(0, Math.min(1, 1 - Math.abs(clampedX + screenW) / screenW));
-  // cardProgress peaks at 1 when on Card (index 2)
   const cardProgress = Math.max(0, Math.min(1, 1 - Math.abs(clampedX + 2 * screenW) / screenW));
+  const cashProgress = Math.max(0, Math.min(1, 1 - Math.abs(clampedX + 3 * screenW) / screenW));
+  const billSplitterProgress = Math.max(0, Math.min(1, 1 - Math.abs(clampedX + 4 * screenW) / screenW));
 
-  const isDark = darkProgress > 0.5 || cardProgress > 0.5;
+  const gradientTest = data.gradientTest === true;
+  const gradientV2 = gradientTest && data.gradientTestVersion === 2;
+  // In gradient-test mode, Cash + Bill Splitter pages also use a dark/saturated
+  // top — so the header/chip bar needs to flip to its light-on-dark variant for
+  // those tabs too.
+  const isDark = gradientTest
+    ? (darkProgress > 0.5 || cardProgress > 0.5 || cashProgress > 0.5 || billSplitterProgress > 0.5)
+    : (darkProgress > 0.5 || cardProgress > 0.5);
   const easing = isDragging ? 'none' : 'opacity 350ms cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
   // Per-page opacity: fades in when adjacent to current swipe position
   const pageOpacity = (i: number) =>
     Math.max(0, 1 - Math.abs(clampedX + i * screenW) / screenW);
 
-  const pages = [
-    <AllContent
-      data={data}
-      cardAdopted={cardAdopted}
-      hasOrder={data.hasOrder}
-      hasTracking={data.hasTracking}
-      onGoToMarketplace={() => setPage(1)}
-      onTrackOrder={() => setShowOrderTracking(true)}
-      onGoToCard={() => setPage(2)}
-      onGoToCash={() => setPage(3)}
-      onOpenShop={() => setActiveNav('shop')}
-    />,
-    <MarketplaceContent data={data} hasOrder={data.hasOrder} onTrackOrder={() => setShowOrderTracking(true)} />,
-    <CardContent onApply={handleApplyNow} cardAdopted={cardAdopted} creditLimit={data.card.creditLimit} />,
-    <PlaceholderContent label="Cash" />,
-    <PlaceholderContent label="Bill Pay" />,
-    <PlaceholderContent label="Savings" />,
-  ];
+  // Marketplace cents split for gradient-test hero
+  const mpStr = data.spending.spendingLimit.toFixed(2).split('.');
+
+  const pages = gradientTest
+    ? [
+        <AllContent
+          data={data}
+          cardAdopted={cardAdopted}
+          hasOrder={data.hasOrder}
+          hasTracking={data.hasTracking}
+          onGoToMarketplace={() => setPage(1)}
+          onTrackOrder={() => setShowOrderTracking(true)}
+          onGoToCard={() => setPage(2)}
+          onGoToCash={() => setPage(3)}
+          onGoToBillSplitter={() => setPage(4)}
+          onBankPayment={() => setShowBankPayment(true)}
+        />,
+        <GradientTestPage
+          topLabel="Available Spending Limit"
+          bigText={`$${mpStr[0]}`}
+          dimSuffix={`.${mpStr[1]}`}
+          totalLimit={data.spending.totalLimit}
+          managementTitle="Card Management"
+          managementItems={CARD_MGMT_LIST}
+        />,
+        <GradientTestPage
+          topLabel="Available Credit Limit"
+          bigText={`$${data.card.creditLimit.toLocaleString()}`}
+          totalLimit={data.spending.totalLimit}
+          managementTitle="Card Management"
+          managementItems={CARD_MGMT_LIST}
+        />,
+        <GradientTestPage
+          topLabel="Left to repay"
+          bigText={`$${(data.cashAssist?.amount ?? 0).toLocaleString()}`}
+          totalLimit={data.spending.totalLimit}
+          managementTitle="Loan Management"
+          managementItems={LOAN_MGMT_LIST}
+        />,
+        <GradientTestPage
+          topLabel="Bill Covered"
+          bigText={`${data.billSplitter?.percentCovered ?? 0}`}
+          dimSuffix="%"
+          totalLimit={data.spending.totalLimit}
+          managementTitle="Loan Management"
+          managementItems={LOAN_MGMT_LIST}
+        />,
+        <PlaceholderContent label="Savings" />,
+      ]
+    : [
+        <AllContent
+          data={data}
+          cardAdopted={cardAdopted}
+          hasOrder={data.hasOrder}
+          hasTracking={data.hasTracking}
+          onGoToMarketplace={() => setPage(1)}
+          onTrackOrder={() => setShowOrderTracking(true)}
+          onGoToCard={() => setPage(2)}
+          onGoToCash={() => setPage(3)}
+          onGoToBillSplitter={() => setPage(4)}
+          onBankPayment={() => setShowBankPayment(true)}
+        />,
+        <MarketplaceContent data={data} hasOrder={data.hasOrder} onTrackOrder={() => setShowOrderTracking(true)} />,
+        <CardContent onApply={handleApplyNow} cardAdopted={cardAdopted} creditLimit={data.card.creditLimit} data={data} onBankPayment={() => setShowBankPayment(true)} />,
+        <PlaceholderContent label="Cash Assist" />,
+        <PlaceholderContent label="Bill Splitter" />,
+        <PlaceholderContent label="Savings" />,
+      ];
 
   return (
     <div ref={screenRef} className={styles.screen}>
 
-      {/* ── Background: crossfade between light, Marketplace blue, and Card dark ── */}
-      <div
-        className={`${styles.bgLayer} ${styles.bgLight}`}
-        style={{ opacity: Math.max(0, 1 - darkProgress - cardProgress), transition: easing }}
-      />
-      <div
-        className={`${styles.bgLayer} ${styles.bgDark}`}
-        style={{ opacity: darkProgress, transition: easing }}
-      />
-      <div
-        className={`${styles.bgLayer} ${cardAdopted ? styles.bgCardAdopted : styles.bgCard}`}
-        style={{ opacity: cardProgress, transition: easing }}
-      />
+      {/* ── Background: crossfade per page ── */}
+      {gradientTest ? (
+        <>
+          <div
+            className={`${styles.bgLayer} ${styles.bgLight}`}
+            style={{ opacity: Math.max(0, 1 - darkProgress - cardProgress - cashProgress - billSplitterProgress), transition: easing }}
+          />
+          <div
+            className={`${styles.bgLayer} ${styles.bgGradMarketplace}`}
+            style={{ opacity: darkProgress, transition: easing }}
+          />
+          <div
+            className={`${styles.bgLayer} ${styles.bgGradCard}`}
+            style={{ opacity: cardProgress, transition: easing }}
+          />
+          <div
+            className={`${styles.bgLayer} ${gradientV2 ? styles.bgGradCashV2 : styles.bgGradCash}`}
+            style={{ opacity: cashProgress, transition: easing }}
+          />
+          <div
+            className={`${styles.bgLayer} ${gradientV2 ? styles.bgGradBillSplitterV2 : styles.bgGradBillSplitter}`}
+            style={{ opacity: billSplitterProgress, transition: easing }}
+          />
+        </>
+      ) : (
+        <>
+          <div
+            className={`${styles.bgLayer} ${styles.bgLight}`}
+            style={{ opacity: Math.max(0, 1 - darkProgress - cardProgress), transition: easing }}
+          />
+          <div
+            className={`${styles.bgLayer} ${styles.bgDark}`}
+            style={{ opacity: darkProgress, transition: easing }}
+          />
+          <div
+            className={`${styles.bgLayer} ${cardAdopted ? styles.bgCardAdopted : styles.bgCard}`}
+            style={{ opacity: cardProgress, transition: easing }}
+          />
+        </>
+      )}
 
       {/* ── Fixed header: pinned, never scrolls ── */}
       <div className={styles.fixedHeader}>
@@ -1222,6 +1540,7 @@ export default function Dashboard() {
           pageIndex={page}
           isDark={isDark}
           onSelect={(i) => setPage(i)}
+          notifs={chipNotifs}
         />
       </div>
 
@@ -1261,6 +1580,13 @@ export default function Dashboard() {
 
       <CardApplyingOverlay show={showCardApplying} />
       <CardApprovalOverlay show={showCardApproval} onBack={handleApprovalBack} />
+
+      {showBankPayment && (
+        <BankPaymentScreen
+          amount={data.card.currentBalance}
+          onBack={() => setShowBankPayment(false)}
+        />
+      )}
     </div>
   );
 }

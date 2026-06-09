@@ -69,16 +69,255 @@
   );
 }
 
-/* Adopted card state: gradient ends midway through the balance card (~340px) */
+/* Adopted card state: gradient fades out below the notifications section */
 .bgCardAdopted {
   background: linear-gradient(
     180deg,
     #020813 0px,
     #181c21 60px,
     #2e343f 150px,
-    #555f6d 240px,
-    rgba(247, 248, 250, 0) 340px
+    #555f6d 300px,
+    rgba(247, 248, 250, 0) 460px
   );
+}
+
+/* ─── Gradient Test backgrounds ──────────────────────────────────────── */
+/* Each uses the exact gradient overlay from Figma, anchored to top center,
+   100% width, natural height. Light base shows through below the fade. */
+.bgGradMarketplace,
+.bgGradCard,
+.bgGradCash,
+.bgGradBillSplitter {
+  background-color: #f1f5f8;
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% auto;
+}
+
+.bgGradMarketplace { background-image: url('../assets/gradients/marketplace.png'); }
+.bgGradCard        { background-image: url('../assets/gradients/card.png'); }
+.bgGradCash        { background-image: url('../assets/gradients/cash.png'); }
+.bgGradBillSplitter { background-image: url('../assets/gradients/billsplitter.png'); }
+
+/* ─── Gradient Test v2 backgrounds ───────────────────────────────────────
+ *
+ * Single composite SVG per page with the linear/radial base and the ellipse
+ * glow layers baked in. ViewBox 0 0 375 N matches the Figma design width,
+ * so width:100% scales the whole composition responsively. Ellipse rx/ry
+ * and blur stdDeviation are pre-squished to the design's container
+ * dimensions so the glow looks oval, not circular.
+ */
+.bgGradCashV2,
+.bgGradBillSplitterV2 {
+  background-color: #f1f5f8;
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% auto;
+}
+.bgGradCashV2         { background-image: url('../assets/gradients/v2-cash.svg'); }
+.bgGradBillSplitterV2 { background-image: url('../assets/gradients/v2-billsplitter.svg'); }
+
+/* ─── Shared gradient-test product page template ─────────────────────── */
+.gradTestPage {
+  min-height: 100%;
+  padding: 0 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .gradTestPage {
+    padding: 0 24px 40px;
+  }
+}
+
+.gradTestHero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  /* Generous vertical padding so the balance card sits ~y=316 (matching Figma),
+     which puts the SVG ellipse glow at the balance-card top / behind the hero
+     number — the "shining a light on the number" effect from the mock. */
+  padding: 64px 0 48px;
+}
+
+@media (min-width: 768px) {
+  .gradTestHero {
+    padding: 72px 0 56px;
+  }
+}
+
+.gradTestHeroLabel {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 15px;
+  margin: 0;
+}
+
+.gradTestHeroAmountRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.gradTestHeroMain {
+  font-size: 60px;
+  font-weight: 700;
+  color: white;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.gradTestHeroDim {
+  font-size: 34px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.gradTestBalanceCard {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.gradTestBalanceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gradTestBalanceLabel {
+  font-size: 16px;
+  color: #113355;
+  line-height: 24px;
+}
+
+.gradTestBalanceDots {
+  font-size: 20px;
+  color: #587088;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.gradTestBalanceBarWrap {
+  position: relative;
+  padding-bottom: 24px;
+}
+
+.gradTestBalanceBar {
+  height: 8px;
+  border-radius: 100px;
+  background: #f2f2f2;
+  width: 100%;
+}
+
+.gradTestBalanceBarLeftLabel {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  font-size: 12px;
+  font-style: italic;
+  color: #587088;
+  line-height: 18px;
+}
+
+.gradTestBalanceBarRightLabel {
+  position: absolute;
+  right: 0;
+  top: 12px;
+  font-size: 12px;
+  font-style: italic;
+  color: #587088;
+  line-height: 18px;
+}
+
+.gradTestSectionCard {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.gradTestSectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #113355;
+  line-height: 24px;
+  margin: 0;
+}
+
+.gradTestEmptyCard {
+  background: #f1f5f8;
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.gradTestEmptyTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #113355;
+  line-height: 24px;
+  margin: 0;
+}
+
+.gradTestEmptySub {
+  font-size: 12px;
+  color: #76869b;
+  line-height: 18px;
+  max-width: 200px;
+  margin: 0;
+}
+
+.gradTestMgmtCard {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.gradTestMgmtHeader {
+  font-size: 16px;
+  font-weight: 600;
+  color: #113355;
+  line-height: 24px;
+  padding: 16px;
+  margin: 0;
+  border-bottom: 1px solid #e9eef5;
+}
+
+.gradTestMgmtItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #e9eef5;
+  cursor: pointer;
+}
+
+.gradTestMgmtItem:last-child {
+  border-bottom: none;
+}
+
+.gradTestMgmtItemLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  color: #113355;
 }
 
 /* ─── Fixed header ────────────────────────────────────────────────────── */
@@ -230,13 +469,15 @@
 .chipUnselectedDark  { color: rgba(255, 255, 255, 0.82); }
 
 .chipNotifDot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
   display: block;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1px;
+  right: 1px;
   pointer-events: none;
+  box-shadow: 0 0 0 1.5px rgba(255,255,255,0.7);
 }
 
 /* ─── Content track ───────────────────────────────────────────────────── */
@@ -362,6 +603,95 @@
 }
 
 .cardContent { padding: 16px; }
+
+/* ─── Product card (Dashboard 3.0 style) ─────────────────────────────── */
+.productCard {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.productCardBody {
+  padding: 16px;
+}
+
+.productCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.productCardTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #113355;
+  line-height: 24px;
+}
+
+.productCardValueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.productCardValue {
+  font-size: 40px;
+  font-weight: 600;
+  color: #113355;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.productCardSubvalue {
+  font-size: 14px;
+  font-weight: 400;
+  color: #76869b;
+  line-height: 21px;
+}
+
+.productCardSubvalueOverlimit {
+  color: #e07a00;
+}
+
+.productCardStrip {
+  margin: 12px 0 0;
+  background: #ebf2ff;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.productCardStripLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.orderThumbCircle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.4px solid #e9eef5;
+  background: white;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orderThumbCircleImg {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
 
 .mpCardTop {
   display: flex;
@@ -772,6 +1102,7 @@
   top: 0;
   left: 0;
   max-width: 100%;
+  background: linear-gradient(90deg, #2e71ea 0%, #7ca7ec 100%);
 }
 
 .mpL2BarFillImg { width: 100%; height: 100%; display: block; }
@@ -787,7 +1118,14 @@
 
 .mpL2MarkerLabel { font-size: 12px; color: #587088; font-style: italic; line-height: 18px; white-space: nowrap; }
 
-.mpL2MarkerTriangle { width: 4px; height: 4px; display: block; }
+.mpL2MarkerTriangle {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #587088;
+}
 
 .mpL2MaxLabel {
   position: absolute;
@@ -1593,7 +1931,6 @@
 .cardBalanceBarLabel {
   font-size: 12px;
   color: #587088;
-  font-style: italic;
 }
 
 .cardActivitySection {
@@ -1608,6 +1945,7 @@
   font-weight: 600;
   color: #113355;
   margin: 0;
+  padding: 16px;
 }
 
 .cardActivityEmpty {
@@ -1829,4 +2167,454 @@
   align-items: flex-end;
   padding: 8px 20px calc(env(safe-area-inset-bottom, 4px) + 8px);
   min-height: 60px;
+}
+
+/* ─── All page: overlimit card strip ────────────────────────────────────── */
+.mpCardAmountSubOverlimit {
+  color: #e07a00;
+}
+
+.overlimitStrip {
+  background: #ebf2ff;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.overlimitStripContent {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ─── Card details: overlimit + reship scenario ──────────────────────────── */
+
+.notificationSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 16px 0;
+}
+
+.notificationCardWrap {
+  position: relative;
+  z-index: 2;
+}
+
+.notificationCard {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0px 4px 21px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.notificationCardTop {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.notificationIcon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  object-fit: contain;
+  margin-top: 2px;
+}
+
+.notificationText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.notificationTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #113355;
+  margin: 0;
+  line-height: 24px;
+}
+
+.notificationBody {
+  font-size: 14px;
+  color: #324b6c;
+  margin: 0;
+  line-height: 21px;
+}
+
+.makeBankPaymentBtn {
+  width: 100%;
+  background: #2e71ea;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+}
+
+.countBadge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #2e71ea;
+  border: 2.5px solid white;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  line-height: 1;
+}
+
+.seeMoreToggle {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #4f6784;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+  padding: 12px 0 0;
+  width: 100%;
+}
+
+/* ── Animated second notification (Figma-matched card stack) ──
+   Collapsed: card 2 is tucked behind card 1, only its bottom ~10px peeks out.
+   Expanded: card 2 slides fully below card 1 at full width.
+── */
+.notification2Wrap {
+  position: relative;
+  z-index: 1;
+  margin-top: -59px;  /* pulls card 2 up so only ~10px of its bottom peeks below card 1 */
+  margin-left: 7px;
+  margin-right: 7px;
+  transition: margin-top 380ms cubic-bezier(0.32, 0.72, 0, 1),
+              margin-left 380ms cubic-bezier(0.32, 0.72, 0, 1),
+              margin-right 380ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.notification2WrapVisible {
+  margin-top: 8px;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.notification2Card {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 0.5px solid rgba(5, 24, 44, 0.08);
+  box-shadow: 0px 2px 8px rgba(3, 70, 141, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.notification2Icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.trackBtn {
+  background: none;
+  border: 1px solid #d0dae8;
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #113355;
+  font-family: inherit;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── Overlimit progress bar ── */
+.overlimitProgressBarWrap {
+  height: 12px;
+  background: #f2f2f2;
+  border-radius: 100px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.overlimitProgressBar {
+  height: 100%;
+  width: 100%;
+  background: #ebb323;
+  border-radius: 100px;
+}
+
+/* ── Activity card for overlimit page ── */
+.overlimitActivityCard {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.overlimitActivityDivider {
+  height: 1px;
+  background: #e9eef5;
+  margin: 0;
+}
+
+.overlimitActivityRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.overlimitActivityRowDivider {
+  height: 1px;
+  background: #e9eef5;
+  margin: 0 16px;
+}
+
+.overlimitActivityMerchant {
+  font-size: 16px;
+  color: #113355;
+  margin: 0;
+  line-height: 24px;
+}
+
+.overlimitActivityDate {
+  font-size: 12px;
+  color: #4f6784;
+  margin: 0;
+  line-height: 18px;
+}
+
+.overlimitActivityAmount {
+  font-size: 16px;
+  color: #113355;
+  margin: 0;
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+.viewMoreBtn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2e71ea;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 12px 16px;
+  text-align: center;
+}
+
+/* ─── Bank Payment Screen ────────────────────────────────────────────────── */
+.bankPayScreen {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  background: linear-gradient(
+    180deg,
+    #020813 0px,
+    #181c21 60px,
+    #2e343f 150px,
+    #555f6d 300px,
+    #f1f5f8 460px
+  );
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.bankPayHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(env(safe-area-inset-top, 0px) + 14px) 16px 16px;
+  flex-shrink: 0;
+}
+
+.bankPayBack {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bankPayHeaderTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: -0.2px;
+}
+
+.bankPayAmountSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 24px 28px;
+  flex-shrink: 0;
+}
+
+.bankPayAmountLabel {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 500;
+}
+
+.bankPayAmountValue {
+  font-size: 52px;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.bankPayAmountSub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  margin: 10px 0 0;
+}
+
+.bankPayBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 32px;
+  gap: 12px;
+}
+
+.bankPayMethodCard {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0px 2px 16px rgba(3, 70, 141, 0.12);
+}
+
+.bankPayBankIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1a4fa3, #2e71ea);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bankPayBankInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.bankPayBankName {
+  font-size: 15px;
+  font-weight: 600;
+  color: #113355;
+  margin: 0 0 2px;
+}
+
+.bankPayBankSub {
+  font-size: 13px;
+  color: #587088;
+  margin: 0;
+}
+
+.bankPaySelectedCheck {
+  flex-shrink: 0;
+}
+
+.bankPayDisclosure {
+  font-size: 12px;
+  color: #587088;
+  margin: 0;
+  line-height: 18px;
+  text-align: center;
+}
+
+.bankPayBtn {
+  width: 100%;
+  background: #2e71ea;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 17px 16px;
+  font-size: 17px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: -0.2px;
+  box-shadow: 0px 4px 16px rgba(46, 113, 234, 0.4);
+}
+
+.bankPayBtn:active {
+  opacity: 0.88;
+}
+
+/* Success state */
+.bankPaySuccessBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 32px;
+}
+
+.bankPaySuccessRing {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #049B82;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 12px rgba(4, 155, 130, 0.15);
+}
+
+.bankPaySuccessTitle {
+  font-size: 26px;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.bankPaySuccessSub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+  text-align: center;
+  line-height: 22px;
 }
