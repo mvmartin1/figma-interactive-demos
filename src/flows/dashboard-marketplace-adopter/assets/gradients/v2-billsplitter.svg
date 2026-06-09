@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 679" preserveAspectRatio="none" fill="none">
+  <defs>
+    <radialGradient id="bg" cx="0" cy="0" r="1"
+      gradientTransform="matrix(46.3398 1201.58 -1095.76 46.6524 209.5 -145.5)"
+      gradientUnits="userSpaceOnUse">
+      <stop offset="0.109831" stop-color="#021333"/>
+      <stop offset="0.412168" stop-color="#0165FC"/>
+      <stop offset="0.607677" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="bf1" x="-100%" y="-200%" width="300%" height="500%">
+      <feGaussianBlur stdDeviation="38.27 25.94"/>
+    </filter>
+    <filter id="bf2" x="-100%" y="-200%" width="300%" height="500%">
+      <feGaussianBlur stdDeviation="24.04 14.25"/>
+    </filter>
+    <filter id="bf3" x="-100%" y="-200%" width="300%" height="500%">
+      <feGaussianBlur stdDeviation="17.20 12.25"/>
+    </filter>
+  </defs>
+  <rect width="375" height="679" fill="url(#bg)"/>
+  <!-- cy values raised from Figma's 332/353/348 so the glow shines on the
+       hero amount and emerges from the top of the balance card. -->
+  <!-- Large cyan halo (bottom layer) -->
+  <ellipse cx="191.95" cy="233" rx="69.5" ry="24.6" fill="#01F3D8" filter="url(#bf1)"/>
+  <!-- Warm cream wash -->
+  <ellipse cx="194.995" cy="254" rx="95.9" ry="18.1" fill="#FFDB98" filter="url(#bf2)"/>
+  <!-- Tight cyan hotspot (top) -->
+  <ellipse cx="189.469" cy="248" rx="74.0" ry="22.8" fill="#01F3D8" filter="url(#bf3)"/>
+</svg>

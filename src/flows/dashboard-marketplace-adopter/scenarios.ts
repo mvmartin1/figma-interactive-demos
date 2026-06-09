@@ -38,6 +38,16 @@ export type DashboardData = {
   };
   hasOrder: boolean;
   hasTracking: boolean;
+  // ── Gradient Test scenario fields ──────────────────────────────────────
+  // When true, every active-product page (Marketplace / Card / Cash Assist /
+  // Bill Splitter) renders a shared template + per-tab gradient image so
+  // swiping has no layout shift between tabs.
+  gradientTest?: boolean;
+  // 1 = single SVG/PNG gradient per page (test 1)
+  // 2 = layered linear + ellipse glows for Cash Assist / Bill Splitter (test 2)
+  gradientTestVersion?: 1 | 2;
+  cashAssist?: { amount: number; balance: number };
+  billSplitter?: { percentCovered: number; balance: number };
 };
 
 const BASE_DATA = {
@@ -118,6 +128,31 @@ export const scenarios: Record<string, Scenario<DashboardData>> = {
       },
       hasOrder: false,
       hasTracking: true,
+    },
+  },
+  allActiveGradientTest1: {
+    label: 'All Active Products – Gradient Test 1',
+    data: {
+      ...BASE_DATA,
+      card: { adopted: true, creditLimit: 1500, currentBalance: 0 },
+      hasOrder: true,
+      hasTracking: true,
+      gradientTest: true,
+      cashAssist: { amount: 534, balance: 0 },
+      billSplitter: { percentCovered: 100, balance: 0 },
+    },
+  },
+  allActiveGradientTest2: {
+    label: 'All Active Products – Gradient Test 2',
+    data: {
+      ...BASE_DATA,
+      card: { adopted: true, creditLimit: 1500, currentBalance: 0 },
+      hasOrder: true,
+      hasTracking: true,
+      gradientTest: true,
+      gradientTestVersion: 2,
+      cashAssist: { amount: 534, balance: 0 },
+      billSplitter: { percentCovered: 100, balance: 0 },
     },
   },
 };
