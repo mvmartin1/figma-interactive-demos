@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 779" preserveAspectRatio="none" fill="none">
+  <defs>
+    <filter id="b1" x="-200%" y="-400%" width="500%" height="900%">
+      <feGaussianBlur stdDeviation="70 32"/>
+    </filter>
+    <filter id="b2" x="-200%" y="-400%" width="500%" height="900%">
+      <feGaussianBlur stdDeviation="40 18"/>
+    </filter>
+    <!-- Inner ellipse: cream at the bottom, vibrant yellow near the top. -->
+    <linearGradient id="creamYellow" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0" stop-color="#FFF3D1"/>
+      <stop offset="0.83" stop-color="#FFD748"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer lavender halo — identical to Cash v5's outer halo. -->
+  <ellipse cx="187" cy="307" rx="210" ry="55" fill="#E3CCFE" filter="url(#b1)"/>
+  <!-- Inner cream → yellow glow -->
+  <ellipse cx="187" cy="307" rx="125" ry="26" fill="url(#creamYellow)" filter="url(#b2)"/>
+</svg>

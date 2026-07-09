@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 779" preserveAspectRatio="none" fill="none">
+  <defs>
+    <filter id="b1" x="-200%" y="-400%" width="500%" height="900%">
+      <feGaussianBlur stdDeviation="70 45"/>
+    </filter>
+    <filter id="b2" x="-200%" y="-400%" width="500%" height="900%">
+      <feGaussianBlur stdDeviation="45 16"/>
+    </filter>
+  </defs>
+  <!-- Transparent base; only the ellipses paint. Stacked on top of v2-cash-base.
+       Centers sit right at the balance-card top edge (viewport Y≈277 maps to
+       SVG y≈266) so the bright peak crests over the card top with the
+       halo radiating UP into the hero area. -->
+  <ellipse cx="187" cy="307" rx="180" ry="70" fill="#FFE2B5" filter="url(#b1)"/>
+  <ellipse cx="187" cy="307" rx="110" ry="22" fill="#FFAB87" filter="url(#b2)"/>
+</svg>

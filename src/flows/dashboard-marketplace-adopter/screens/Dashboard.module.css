@@ -87,7 +87,11 @@
 .bgGradMarketplace,
 .bgGradCard,
 .bgGradCash,
-.bgGradBillSplitter {
+.bgGradCashV3,
+.bgGradCashV4,
+.bgGradBillSplitter,
+.bgGradBillSplitterV6,
+.bgGradSavings {
   background-color: #f1f5f8;
   background-repeat: no-repeat;
   background-position: top center;
@@ -97,25 +101,53 @@
 .bgGradMarketplace { background-image: url('../assets/gradients/marketplace.png'); }
 .bgGradCard        { background-image: url('../assets/gradients/card.png'); }
 .bgGradCash        { background-image: url('../assets/gradients/cash.png'); }
-.bgGradBillSplitter { background-image: url('../assets/gradients/billsplitter.png'); }
+.bgGradCashV3      { background-image: url('../assets/gradients/cash-v3.svg'); }
+.bgGradCashV4      { background-image: url('../assets/gradients/cash-v4.svg'); }
+.bgGradBillSplitter   { background-image: url('../assets/gradients/billsplitter.png'); }
+.bgGradBillSplitterV6 { background-image: url('../assets/gradients/billsplitter-v6.svg'); }
+.bgGradSavings     { background-image: url('../assets/gradients/savings.svg'); }
 
 /* ─── Gradient Test v2 backgrounds ───────────────────────────────────────
  *
- * Single composite SVG per page with the linear/radial base and the ellipse
- * glow layers baked in. ViewBox 0 0 375 N matches the Figma design width,
- * so width:100% scales the whole composition responsively. Ellipse rx/ry
- * and blur stdDeviation are pre-squished to the design's container
- * dimensions so the glow looks oval, not circular.
+ * Split into base + glow layers. The base (linear/radial gradient) uses
+ * the normal swipe crossfade. The glow (ellipse halos) is stacked on top
+ * and only fades in AFTER the swipe settles — controlled via JS state in
+ * Dashboard.tsx. ViewBox 0 0 375 N matches the Figma design width.
  */
 .bgGradCashV2,
-.bgGradBillSplitterV2 {
-  background-color: #f1f5f8;
+.bgGradBillSplitterV2,
+.bgGradCashV5Base,
+.bgGradSavingsV5Base,
+.bgGradCashGlow,
+.bgGradBillSplitterGlow,
+.bgGradCashV5Glow,
+.bgGradSavingsV5Glow,
+.bgGradMarketplaceV5Glow,
+.bgGradCardV5Glow {
   background-repeat: no-repeat;
   background-position: top center;
   background-size: 100% auto;
 }
-.bgGradCashV2         { background-image: url('../assets/gradients/v2-cash.svg'); }
-.bgGradBillSplitterV2 { background-image: url('../assets/gradients/v2-billsplitter.svg'); }
+/* Base layers: solid color underneath so the gradient extends to the
+   phone bottom even though the SVG itself only covers the top portion. */
+.bgGradCashV2,
+.bgGradBillSplitterV2,
+.bgGradCashV5Base,
+.bgGradSavingsV5Base { background-color: #f1f5f8; }
+.bgGradCashV2         { background-image: url('../assets/gradients/v2-cash-base.svg'); }
+.bgGradBillSplitterV2 { background-image: url('../assets/gradients/v2-billsplitter-base.svg'); }
+.bgGradCashV5Base     { background-image: url('../assets/gradients/v5-cash-base.svg'); }
+/* Savings v5 reuses the same blue linear gradient as Cash v5 (intentional
+   — only the ellipse glow above it changes). */
+.bgGradSavingsV5Base  { background-image: url('../assets/gradients/v5-cash-base.svg'); }
+/* Glow layers: transparent — only the ellipse halos paint, the base
+   gradient underneath shows through everywhere else. */
+.bgGradCashGlow         { background-image: url('../assets/gradients/v2-cash-glow.svg'); }
+.bgGradBillSplitterGlow { background-image: url('../assets/gradients/v2-billsplitter-glow.svg'); }
+.bgGradCashV5Glow       { background-image: url('../assets/gradients/v5-cash-glow.svg'); }
+.bgGradSavingsV5Glow    { background-image: url('../assets/gradients/v5-savings-glow.svg'); }
+.bgGradMarketplaceV5Glow { background-image: url('../assets/gradients/v5-marketplace-glow.svg'); }
+.bgGradCardV5Glow        { background-image: url('../assets/gradients/v5-card-glow.svg'); }
 
 /* ─── Shared gradient-test product page template ─────────────────────── */
 .gradTestPage {
@@ -137,23 +169,16 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  /* Generous vertical padding so the balance card sits ~y=316 (matching Figma),
-     which puts the SVG ellipse glow at the balance-card top / behind the hero
-     number — the "shining a light on the number" effect from the mock. */
-  padding: 64px 0 48px;
-}
-
-@media (min-width: 768px) {
-  .gradTestHero {
-    padding: 72px 0 56px;
-  }
+  /* Tight vertical compression — −16px above and below pulls the hero into
+     the chip bar and balance card so the cross-page spacing is uniform. */
+  padding: 32px 0;
 }
 
 .gradTestHeroLabel {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.9);
-  line-height: 15px;
+  line-height: 21px;
   margin: 0;
 }
 
@@ -164,20 +189,25 @@
 }
 
 .gradTestHeroMain {
-  font-size: 60px;
+  font-size: 68px;
   font-weight: 700;
   color: white;
   line-height: 1;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
 }
 
 .gradTestHeroDim {
-  font-size: 34px;
+  font-size: 40px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.55);
   line-height: 1;
   margin-bottom: 4px;
 }
+
+/* Light-theme hero variants — used on the Savings page (light yellow bg). */
+.gradTestHeroLabelLight { color: #4f6784; }
+.gradTestHeroMainLight  { color: #113355; }
+.gradTestHeroDimLight   { color: rgba(17, 51, 85, 0.4); }
 
 .gradTestBalanceCard {
   background: white;
@@ -531,23 +561,22 @@
 }
 
 /* ─── Spending limit (top of marketplace content) ────────────────────── */
+/* Same recipe as .gradTestHero so heroes line up across scenarios. */
 .spendingSection {
   text-align: center;
-  padding: 16px 0 0;
-}
-
-@media (min-width: 768px) {
-  .spendingSection {
-    padding: 24px 0 0;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 32px 0;
 }
 
 .spendingLabel {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.9);
-  margin: 0 0 4px;
-  line-height: 15px;
+  margin: 0;
+  line-height: 21px;
 }
 
 .spendingAmountRow {
@@ -557,14 +586,15 @@
 }
 
 .spendingDollars {
-  font-size: 60px;
-  font-weight: 600;
+  font-size: 68px;
+  font-weight: 700;
   color: white;
   line-height: 1;
+  letter-spacing: -1.5px;
 }
 
 .spendingCents {
-  font-size: 34px;
+  font-size: 40px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.72);
   line-height: 1;
@@ -1873,8 +1903,9 @@
   padding-bottom: 32px;
 }
 
+/* Same hero recipe as .gradTestHero / .spendingSection for cross-page alignment */
 .cardAdoptedHero {
-  padding: 32px 20px 0;
+  padding: 32px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1882,18 +1913,21 @@
 }
 
 .cardAdoptedLimitLabel {
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 400;
   color: rgba(255, 255, 255, 0.75);
   text-align: center;
   margin: 0;
+  line-height: 21px;
 }
 
 .cardAdoptedLimit {
-  font-size: 60px;
+  font-size: 68px;
   font-weight: 700;
   color: white;
   text-align: center;
-  line-height: 1.15;
+  line-height: 1;
+  letter-spacing: -1.5px;
   margin: 0;
 }
 

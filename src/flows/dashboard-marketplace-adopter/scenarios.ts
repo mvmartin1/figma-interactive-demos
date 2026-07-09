@@ -45,7 +45,11 @@ export type DashboardData = {
   gradientTest?: boolean;
   // 1 = single SVG/PNG gradient per page (test 1)
   // 2 = layered linear + ellipse glows for Cash Assist / Bill Splitter (test 2)
-  gradientTestVersion?: 1 | 2;
+  // 3 = test 1 layout with an alternate Cash Assist gradient (navy → peach)
+  // 4 = test 1 layout with a light mint Cash Assist gradient (light-theme hero)
+  // 5 = test 2 layout but Cash Assist uses lavender + orange-peach ellipses
+  // 6 = test 4 base, but Bill Splitter also goes light (light blue gradient)
+  gradientTestVersion?: 1 | 2 | 3 | 4 | 5 | 6;
   cashAssist?: { amount: number; balance: number };
   billSplitter?: { percentCovered: number; balance: number };
 };
@@ -152,6 +156,58 @@ export const scenarios: Record<string, Scenario<DashboardData>> = {
       gradientTest: true,
       gradientTestVersion: 2,
       cashAssist: { amount: 534, balance: 0 },
+      billSplitter: { percentCovered: 100, balance: 0 },
+    },
+  },
+  allActiveGradientTest3: {
+    label: 'All Active Products – Gradient Test 3',
+    data: {
+      ...BASE_DATA,
+      card: { adopted: true, creditLimit: 1500, currentBalance: 0 },
+      hasOrder: true,
+      hasTracking: true,
+      gradientTest: true,
+      gradientTestVersion: 3,
+      cashAssist: { amount: 534, balance: 0 },
+      billSplitter: { percentCovered: 100, balance: 0 },
+    },
+  },
+  allActiveGradientTest4: {
+    label: 'All Active Products – Gradient Test 4',
+    data: {
+      ...BASE_DATA,
+      card: { adopted: true, creditLimit: 1500, currentBalance: 0 },
+      hasOrder: true,
+      hasTracking: true,
+      gradientTest: true,
+      gradientTestVersion: 4,
+      cashAssist: { amount: 242, balance: 0 },
+      billSplitter: { percentCovered: 100, balance: 0 },
+    },
+  },
+  allActiveGradientTest5: {
+    label: 'All Active Products – Gradient Test 5',
+    data: {
+      ...BASE_DATA,
+      card: { adopted: true, creditLimit: 1500, currentBalance: 0 },
+      hasOrder: true,
+      hasTracking: true,
+      gradientTest: true,
+      gradientTestVersion: 5,
+      cashAssist: { amount: 534, balance: 0 },
+      billSplitter: { percentCovered: 100, balance: 0 },
+    },
+  },
+  allActiveGradientTest6: {
+    label: 'All Active Products – Gradient Test 6',
+    data: {
+      ...BASE_DATA,
+      card: { adopted: true, creditLimit: 1500, currentBalance: 0 },
+      hasOrder: true,
+      hasTracking: true,
+      gradientTest: true,
+      gradientTestVersion: 6,
+      cashAssist: { amount: 242, balance: 0 },
       billSplitter: { percentCovered: 100, balance: 0 },
     },
   },
