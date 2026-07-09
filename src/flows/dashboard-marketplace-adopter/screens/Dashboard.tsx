@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useScenario } from '@/lib/scenario-context';
 import type { DashboardData } from '../scenarios';
 import styles from './Dashboard.module.css';
@@ -201,11 +201,90 @@ type ChipBarProps = {
   isDark: boolean;
   onSelect: (i: number) => void;
   notifs: ChipNotifs;
+  // Continuous swipe position (0..PAGE_COUNT-1) and drag flag, so the chip
+  // bar can scroll in lockstep with the page slide.
+  swipeProgress: number;
+  isDragging: boolean;
 };
 
-function ChipBar({ pageIndex, isDark, onSelect, notifs }: ChipBarProps) {
+// Solve for y on a cubic-bezier (p1=(x1,y1), p2=(x2,y2)) at parametric x.
+// Matches the 350ms cubic-bezier(0.25, 0.46, 0.45, 0.94) used on the page
+// transform so the chip scroll lands at the exact same instant.
+function bezierEase(x1: number, y1: number, x2: number, y2: number, x: number): number {
+  // Sample cubic at parameter t
+  const sample = (a: number, b: number, t: number) =>
+    ((1 - 3 * b + 3 * a) * t + (3 * b - 6 * a)) * t * t + 3 * a * t;
+  // Newton-Raphson to find t such that sampleX(t) = x
+  let t = x;
+  for (let i = 0; i < 5; i++) {
+    const dx = sample(x1, x2, t) - x;
+    const slope = 3 * (1 - 3 * x2 + 3 * x1) * t * t + 2 * (3 * x2 - 6 * x1) * t + 3 * x1;
+    if (Math.abs(slope) < 1e-6) break;
+    t -= dx / slope;
+  }
+  return sample(y1, y2, Math.max(0, Math.min(1, t)));
+}
+
+function ChipBar({ pageIndex, isDark, onSelect, notifs, swipeProgress, isDragging }: ChipBarProps) {
+  const barRef = useRef<HTMLDivElement>(null);
+  const chipRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const animationRef = useRef<number | null>(null);
+
+  // Compute the scrollLeft that centers chip i (clamped at the bar edges).
+  const getTargetScroll = useCallback((i: number) => {
+    const bar = barRef.current;
+    const chip = chipRefs.current[i];
+    if (!bar || !chip) return 0;
+    const maxScroll = bar.scrollWidth - bar.clientWidth;
+    const center = chip.offsetLeft + chip.offsetWidth / 2;
+    return Math.max(0, Math.min(maxScroll, center - bar.clientWidth / 2));
+  }, []);
+
+  // DRAG: track the live swipe position in real time, no animation.
+  useEffect(() => {
+    if (!isDragging) return;
+    const bar = barRef.current;
+    if (!bar) return;
+    // Cancel any in-flight settle animation
+    if (animationRef.current !== null) {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
+    }
+    const lower = Math.floor(swipeProgress);
+    const upper = Math.min(CHIPS.length - 1, lower + 1);
+    const t = swipeProgress - lower;
+    bar.scrollLeft = getTargetScroll(lower) * (1 - t) + getTargetScroll(upper) * t;
+  }, [swipeProgress, isDragging, getTargetScroll]);
+
+  // SETTLE / chip tap: animate scrollLeft over 350ms with the same easing
+  // curve as the page transform, kicked off when pageIndex changes (and
+  // we're not in the middle of a drag).
+  useEffect(() => {
+    if (isDragging) return;
+    const bar = barRef.current;
+    if (!bar) return;
+    const target = getTargetScroll(pageIndex);
+    const start = bar.scrollLeft;
+    if (Math.abs(target - start) < 0.5) return;
+    const startTime = performance.now();
+    const duration = 350;
+    const tick = (now: number) => {
+      const linearT = Math.min(1, (now - startTime) / duration);
+      const eased = bezierEase(0.25, 0.46, 0.45, 0.94, linearT);
+      bar.scrollLeft = start + (target - start) * eased;
+      animationRef.current = linearT < 1 ? requestAnimationFrame(tick) : null;
+    };
+    animationRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
+    };
+  }, [pageIndex, isDragging, getTargetScroll]);
+
   return (
-    <div className={styles.chipBar}>
+    <div ref={barRef} className={styles.chipBar}>
       {CHIPS.map((c, i) => {
         const isSelected = i === pageIndex;
         const chipClass = isSelected
@@ -215,7 +294,11 @@ function ChipBar({ pageIndex, isDark, onSelect, notifs }: ChipBarProps) {
           : styles.chipUnselectedLight;
         const notifColor = notifs[c.key];
         return (
-          <div key={c.key} className={styles.chipWrapper}>
+          <div
+            key={c.key}
+            ref={(el) => { chipRefs.current[i] = el; }}
+            className={styles.chipWrapper}
+          >
             <button className={`${styles.chip} ${chipClass}`} onClick={() => onSelect(i)}>
               {c.label}
             </button>
@@ -997,16 +1080,21 @@ type GradientTestPageProps = {
   totalLimit: number;
   managementTitle: string;
   managementItems: string[];
+  // Switch hero text to a dark palette (used on the Savings light-yellow bg).
+  lightTheme?: boolean;
 };
 
-function GradientTestPage({ topLabel, bigText, dimSuffix, totalLimit, managementTitle, managementItems }: GradientTestPageProps) {
+function GradientTestPage({ topLabel, bigText, dimSuffix, totalLimit, managementTitle, managementItems, lightTheme }: GradientTestPageProps) {
+  const labelCls = `${styles.gradTestHeroLabel} ${lightTheme ? styles.gradTestHeroLabelLight : ''}`;
+  const mainCls  = `${styles.gradTestHeroMain} ${lightTheme ? styles.gradTestHeroMainLight : ''}`;
+  const dimCls   = `${styles.gradTestHeroDim} ${lightTheme ? styles.gradTestHeroDimLight : ''}`;
   return (
     <div className={styles.gradTestPage}>
       <div className={styles.gradTestHero}>
-        <p className={styles.gradTestHeroLabel}>{topLabel}</p>
+        <p className={labelCls}>{topLabel}</p>
         <div className={styles.gradTestHeroAmountRow}>
-          <span className={styles.gradTestHeroMain}>{bigText}</span>
-          {dimSuffix && <span className={styles.gradTestHeroDim}>{dimSuffix}</span>}
+          <span className={mainCls}>{bigText}</span>
+          {dimSuffix && <span className={dimCls}>{dimSuffix}</span>}
         </div>
       </div>
 
@@ -1389,14 +1477,34 @@ export default function Dashboard() {
   const cardProgress = Math.max(0, Math.min(1, 1 - Math.abs(clampedX + 2 * screenW) / screenW));
   const cashProgress = Math.max(0, Math.min(1, 1 - Math.abs(clampedX + 3 * screenW) / screenW));
   const billSplitterProgress = Math.max(0, Math.min(1, 1 - Math.abs(clampedX + 4 * screenW) / screenW));
+  const savingsProgress = Math.max(0, Math.min(1, 1 - Math.abs(clampedX + 5 * screenW) / screenW));
 
   const gradientTest = data.gradientTest === true;
   const gradientV2 = gradientTest && data.gradientTestVersion === 2;
+  const gradientV3 = gradientTest && data.gradientTestVersion === 3;
+  const gradientV4 = gradientTest && data.gradientTestVersion === 4;
+  const gradientV5 = gradientTest && data.gradientTestVersion === 5;
+  const gradientV6 = gradientTest && data.gradientTestVersion === 6;
+  // v2 and v5 both render layered base + glow (with ellipses) for Cash & BS.
+  const hasGlowLayers = gradientV2 || gradientV5;
+  // v6 inherits test 4's mint Cash (light theme), and adds light blue BS.
+  const cashIsLight = gradientV4 || gradientV6;
+  const bsIsLight = gradientV6;
   // In gradient-test mode, Cash + Bill Splitter pages also use a dark/saturated
   // top — so the header/chip bar needs to flip to its light-on-dark variant for
   // those tabs too.
+  // Cash is light-bg in v4 + v6 (mint / mint variant); BS is light-bg in v6
+  // (light blue). Those progresses shouldn't flip the header to dark mode.
+  // Savings is dark in v5 (uses blue base) so its progress flips dark.
+  const cashCountsAsDark = !cashIsLight;
+  const bsCountsAsDark = !bsIsLight;
+  const savingsCountsAsDark = gradientV5;
   const isDark = gradientTest
-    ? (darkProgress > 0.5 || cardProgress > 0.5 || cashProgress > 0.5 || billSplitterProgress > 0.5)
+    ? (darkProgress > 0.5
+        || cardProgress > 0.5
+        || (cashCountsAsDark && cashProgress > 0.5)
+        || (bsCountsAsDark && billSplitterProgress > 0.5)
+        || (savingsCountsAsDark && savingsProgress > 0.5))
     : (darkProgress > 0.5 || cardProgress > 0.5);
   const easing = isDragging ? 'none' : 'opacity 350ms cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
@@ -1442,6 +1550,7 @@ export default function Dashboard() {
           totalLimit={data.spending.totalLimit}
           managementTitle="Loan Management"
           managementItems={LOAN_MGMT_LIST}
+          lightTheme={cashIsLight}
         />,
         <GradientTestPage
           topLabel="Bill Covered"
@@ -1450,8 +1559,17 @@ export default function Dashboard() {
           totalLimit={data.spending.totalLimit}
           managementTitle="Loan Management"
           managementItems={LOAN_MGMT_LIST}
+          lightTheme={bsIsLight}
         />,
-        <PlaceholderContent label="Savings" />,
+        <GradientTestPage
+          topLabel="Available Cash"
+          bigText="$534"
+          totalLimit={data.spending.totalLimit}
+          managementTitle="Loan Management"
+          managementItems={LOAN_MGMT_LIST}
+          /* v5 Savings uses the dark blue base so the hero needs white text. */
+          lightTheme={!gradientV5}
+        />,
       ]
     : [
         <AllContent
@@ -1481,7 +1599,7 @@ export default function Dashboard() {
         <>
           <div
             className={`${styles.bgLayer} ${styles.bgLight}`}
-            style={{ opacity: Math.max(0, 1 - darkProgress - cardProgress - cashProgress - billSplitterProgress), transition: easing }}
+            style={{ opacity: Math.max(0, 1 - darkProgress - cardProgress - cashProgress - billSplitterProgress - savingsProgress), transition: easing }}
           />
           <div
             className={`${styles.bgLayer} ${styles.bgGradMarketplace}`}
@@ -1492,13 +1610,51 @@ export default function Dashboard() {
             style={{ opacity: cardProgress, transition: easing }}
           />
           <div
-            className={`${styles.bgLayer} ${gradientV2 ? styles.bgGradCashV2 : styles.bgGradCash}`}
+            className={`${styles.bgLayer} ${gradientV2 ? styles.bgGradCashV2 : gradientV3 ? styles.bgGradCashV3 : (gradientV4 || gradientV6) ? styles.bgGradCashV4 : gradientV5 ? styles.bgGradCashV5Base : styles.bgGradCash}`}
             style={{ opacity: cashProgress, transition: easing }}
           />
           <div
-            className={`${styles.bgLayer} ${gradientV2 ? styles.bgGradBillSplitterV2 : styles.bgGradBillSplitter}`}
+            className={`${styles.bgLayer} ${(gradientV2 || gradientV5) ? styles.bgGradBillSplitterV2 : gradientV6 ? styles.bgGradBillSplitterV6 : styles.bgGradBillSplitter}`}
             style={{ opacity: billSplitterProgress, transition: easing }}
           />
+          <div
+            className={`${styles.bgLayer} ${gradientV5 ? styles.bgGradSavingsV5Base : styles.bgGradSavings}`}
+            style={{ opacity: savingsProgress, transition: easing }}
+          />
+          {hasGlowLayers && (
+            <>
+              {/* Glow layers fade in later in the swipe than the cards do —
+                  a cubic curve keeps opacity low for the first half and
+                  ramps up steeply at the end, so the halo lands just as
+                  the cards finish settling. */}
+              {gradientV5 && (
+                <>
+                  <div
+                    className={`${styles.bgLayer} ${styles.bgGradMarketplaceV5Glow}`}
+                    style={{ opacity: Math.pow(darkProgress, 3), transition: easing }}
+                  />
+                  <div
+                    className={`${styles.bgLayer} ${styles.bgGradCardV5Glow}`}
+                    style={{ opacity: Math.pow(cardProgress, 3), transition: easing }}
+                  />
+                </>
+              )}
+              <div
+                className={`${styles.bgLayer} ${gradientV5 ? styles.bgGradCashV5Glow : styles.bgGradCashGlow}`}
+                style={{ opacity: Math.pow(cashProgress, 3), transition: easing }}
+              />
+              <div
+                className={`${styles.bgLayer} ${styles.bgGradBillSplitterGlow}`}
+                style={{ opacity: Math.pow(billSplitterProgress, 3), transition: easing }}
+              />
+              {gradientV5 && (
+                <div
+                  className={`${styles.bgLayer} ${styles.bgGradSavingsV5Glow}`}
+                  style={{ opacity: Math.pow(savingsProgress, 3), transition: easing }}
+                />
+              )}
+            </>
+          )}
         </>
       ) : (
         <>
@@ -1541,6 +1697,8 @@ export default function Dashboard() {
           isDark={isDark}
           onSelect={(i) => setPage(i)}
           notifs={chipNotifs}
+          swipeProgress={screenW > 0 ? -clampedX / screenW : 0}
+          isDragging={isDragging}
         />
       </div>
 

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 779" preserveAspectRatio="none" fill="none">
+  <defs>
+    <filter id="b1" x="-200%" y="-400%" width="500%" height="900%">
+      <feGaussianBlur stdDeviation="70 32"/>
+    </filter>
+    <filter id="b2" x="-200%" y="-400%" width="500%" height="900%">
+      <feGaussianBlur stdDeviation="40 18"/>
+    </filter>
+    <!-- Inner ellipse fill: orange at the bottom, peach near the top
+         (matches Figma's linearGradient on the inner ellipse). -->
+    <linearGradient id="orangePeach" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0" stop-color="#FF7E47"/>
+      <stop offset="0.83" stop-color="#FFAC88"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer lavender halo — wider + flatter than v2's cream halo,
+       same cy=307 as v2 so the position is identical. -->
+  <ellipse cx="187" cy="307" rx="210" ry="55" fill="#E3CCFE" filter="url(#b1)"/>
+  <!-- Inner orange→peach glow -->
+  <ellipse cx="187" cy="307" rx="125" ry="26" fill="url(#orangePeach)" filter="url(#b2)"/>
+</svg>

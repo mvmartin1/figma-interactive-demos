@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 779" preserveAspectRatio="none" fill="none">
+  <defs>
+    <filter id="b1" x="-200%" y="-400%" width="500%" height="900%">
+      <feGaussianBlur stdDeviation="70 32"/>
+    </filter>
+    <filter id="b2" x="-200%" y="-400%" width="500%" height="900%">
+      <feGaussianBlur stdDeviation="40 18"/>
+    </filter>
+    <!-- Inner glow: translucent white at the bottom, brighter (but still
+         half-strength) at the top — softened from Figma's 0.23→1 so the
+         glow reads as subtle moonlight, not a hot white spot. -->
+    <linearGradient id="whiteFade" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0" stop-color="white" stop-opacity="0.12"/>
+      <stop offset="0.83" stop-color="white" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer halo: very faint white wash (5% opacity) to softly brighten
+       the dark navy Card base — same positioning as v5 Cash outer. -->
+  <ellipse cx="187" cy="307" rx="210" ry="55" fill="white" fill-opacity="0.05" filter="url(#b1)"/>
+  <!-- Inner white-fade glow -->
+  <ellipse cx="187" cy="307" rx="125" ry="26" fill="url(#whiteFade)" filter="url(#b2)"/>
+</svg>

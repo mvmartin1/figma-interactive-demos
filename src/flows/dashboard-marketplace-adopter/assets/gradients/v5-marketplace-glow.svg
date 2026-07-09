@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 779" preserveAspectRatio="none" fill="none">
+  <defs>
+    <filter id="b1" x="-200%" y="-400%" width="500%" height="900%">
+      <feGaussianBlur stdDeviation="70 32"/>
+    </filter>
+    <filter id="b2" x="-200%" y="-400%" width="500%" height="900%">
+      <feGaussianBlur stdDeviation="40 18"/>
+    </filter>
+  </defs>
+  <!-- Outer blue halo (#699EFF) — same positioning as v5 Cash outer. -->
+  <ellipse cx="187" cy="307" rx="210" ry="55" fill="#699EFF" filter="url(#b1)"/>
+  <!-- Inner white glow — softened with fill-opacity so it reads as a
+       subtle highlight instead of a hot white spot. -->
+  <ellipse cx="187" cy="307" rx="125" ry="26" fill="white" fill-opacity="0.55" filter="url(#b2)"/>
+</svg>
