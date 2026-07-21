@@ -2,9 +2,16 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { useScenario } from '@/lib/scenario-context';
 import type { DashboardData } from '../scenarios';
 import styles from './Dashboard.module.css';
+import EmptyStatePage from './EmptyStatePage';
+import {
+  cardEmptyState,
+  marketplaceEmptyState,
+  cashAssistEmptyState,
+  billSplitterEmptyState,
+  savingsEmptyState,
+} from './emptyStateConfigs';
 import marketplacePromoImg from '../assets/marketplace-promo.png';
 import creditCardPromoImg from '../assets/credit-card-promo.png';
-import creditCardHeroImg from '../assets/credit-card-hero.png';
 import smallCardImg from '../assets/small-card.png';
 import hourglassImg from '../assets/hourglass-icon.svg';
 import bellLightImg from '../assets/bell-light.svg';
@@ -812,12 +819,6 @@ function MarketplaceContent({ data, hasOrder, onTrackOrder }: { data: DashboardD
 
 // ─── Card page content ───────────────────────────────────────────────────────
 
-const CARD_BENEFITS = [
-  { label: 'Increased credit limits', sub: 'in as little as 3 months' },
-  { label: 'Build credit', sub: 'with automatic payment* from your direct deposit' },
-  { label: '2% rewards', sub: 'on every payment you make' },
-];
-
 const CARD_MGMT_ITEMS = [
   'Statements & Documents',
   'Add Card To Wallet',
@@ -975,50 +976,24 @@ function CardOverlimitContent({ data, onBankPayment }: { data: DashboardData; on
   );
 }
 
-function CardContent({ onApply, cardAdopted, creditLimit, data, onBankPayment }: {
+function CardContent({ onApply, cardAdopted, creditLimit, data, onBankPayment, isActive }: {
   onApply: () => void;
   cardAdopted: boolean;
   creditLimit: number;
   data: DashboardData;
   onBankPayment: () => void;
+  isActive: boolean;
 }) {
   if (cardAdopted && data.card.isOverlimit) return <CardOverlimitContent data={data} onBankPayment={onBankPayment} />;
   if (cardAdopted) return <CardAdoptedContent creditLimit={creditLimit} />;
 
+  // Not adopted → use the reusable empty-state template. Wired to onApply
+  // so tapping "Apply now" still triggers the existing applying-overlay flow.
   return (
-    <div className={styles.cardPageContent}>
-
-      <div className={styles.cardHero}>
-        <h2 className={styles.cardHeroTitle}>Finally, a card that works for you</h2>
-        <p className={styles.cardHeroSubtitle}>Expand your spending power and get up to a $1,500 Credit Limit</p>
-        <button className={styles.cardApplyBtn} onClick={onApply}>Apply now</button>
-      </div>
-
-      <div className={styles.cardImgSection}>
-        <img src={creditCardHeroImg} alt="Perpay Credit Card" className={styles.cardHeroImg} />
-      </div>
-
-      <div className={styles.cardBenefitsSection}>
-        <p className={styles.cardBenefitsTitle}>Benefits</p>
-        <div className={styles.cardBenefitCard}>
-          {CARD_BENEFITS.map((b, i) => (
-            <div key={b.label}>
-              {i > 0 && <div className={styles.cardBenefitDivider} />}
-              <div className={styles.cardBenefitItem}>
-                <div className={styles.cardBenefitIconWrap}>
-                  <CheckLineIcon />
-                </div>
-                <div className={styles.cardBenefitText}>
-                  <span className={styles.cardBenefitLabel}>{b.label}</span>
-                  <span className={styles.cardBenefitSub}>{b.sub}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-    </div>
+    <EmptyStatePage
+      config={{ ...cardEmptyState, onCta: onApply }}
+      isActive={isActive}
+    />
   );
 }
 
@@ -1480,6 +1455,7 @@ export default function Dashboard() {
   const savingsProgress = Math.max(0, Math.min(1, 1 - Math.abs(clampedX + 5 * screenW) / screenW));
 
   const gradientTest = data.gradientTest === true;
+  const emptyStates = data.emptyStates === true;
   const gradientV2 = gradientTest && data.gradientTestVersion === 2;
   const gradientV3 = gradientTest && data.gradientTestVersion === 3;
   const gradientV4 = gradientTest && data.gradientTestVersion === 4;
@@ -1499,7 +1475,14 @@ export default function Dashboard() {
   const cashCountsAsDark = !cashIsLight;
   const bsCountsAsDark = !bsIsLight;
   const savingsCountsAsDark = gradientV5;
-  const isDark = gradientTest
+  // In the empty-states scenario each product tab reuses the corresponding
+  // gradient-v6 background: Marketplace + Card are dark themes (white text),
+  // Cash / Bill Splitter / Savings are light themes (dark text). Only the
+  // dark-theme tabs should flip the header/chip bar to its dark variant.
+  const emptyStatesDarkProgress = darkProgress + cardProgress;
+  const isDark = emptyStates
+    ? emptyStatesDarkProgress > 0.5
+    : gradientTest
     ? (darkProgress > 0.5
         || cardProgress > 0.5
         || (cashCountsAsDark && cashProgress > 0.5)
@@ -1515,7 +1498,27 @@ export default function Dashboard() {
   // Marketplace cents split for gradient-test hero
   const mpStr = data.spending.spendingLimit.toFixed(2).split('.');
 
-  const pages = gradientTest
+  const pages = emptyStates
+    ? [
+        <AllContent
+          data={data}
+          cardAdopted={cardAdopted}
+          hasOrder={data.hasOrder}
+          hasTracking={data.hasTracking}
+          onGoToMarketplace={() => setPage(1)}
+          onTrackOrder={() => setShowOrderTracking(true)}
+          onGoToCard={() => setPage(2)}
+          onGoToCash={() => setPage(3)}
+          onGoToBillSplitter={() => setPage(4)}
+          onBankPayment={() => setShowBankPayment(true)}
+        />,
+        <EmptyStatePage config={{ ...marketplaceEmptyState, lightTheme: false }} isActive={!isDragging && page === 1} />,
+        <EmptyStatePage config={{ ...cardEmptyState, lightTheme: false }} isActive={!isDragging && page === 2} />,
+        <EmptyStatePage config={{ ...cashAssistEmptyState, lightTheme: true }} isActive={!isDragging && page === 3} />,
+        <EmptyStatePage config={{ ...billSplitterEmptyState, lightTheme: true }} isActive={!isDragging && page === 4} />,
+        <EmptyStatePage config={{ ...savingsEmptyState, lightTheme: true }} isActive={!isDragging && page === 5} />,
+      ]
+    : gradientTest
     ? [
         <AllContent
           data={data}
@@ -1585,7 +1588,14 @@ export default function Dashboard() {
           onBankPayment={() => setShowBankPayment(true)}
         />,
         <MarketplaceContent data={data} hasOrder={data.hasOrder} onTrackOrder={() => setShowOrderTracking(true)} />,
-        <CardContent onApply={handleApplyNow} cardAdopted={cardAdopted} creditLimit={data.card.creditLimit} data={data} onBankPayment={() => setShowBankPayment(true)} />,
+        <CardContent
+          onApply={handleApplyNow}
+          cardAdopted={cardAdopted}
+          creditLimit={data.card.creditLimit}
+          data={data}
+          onBankPayment={() => setShowBankPayment(true)}
+          isActive={!isDragging && page === 2}
+        />,
         <PlaceholderContent label="Cash Assist" />,
         <PlaceholderContent label="Bill Splitter" />,
         <PlaceholderContent label="Savings" />,
@@ -1594,8 +1604,45 @@ export default function Dashboard() {
   return (
     <div ref={screenRef} className={styles.screen}>
 
-      {/* ── Background: crossfade per page ── */}
-      {gradientTest ? (
+      {/* ── Background: crossfade per page ──
+       * In empty-states mode the outer bg paints a SHORT product gradient
+       * (natural height, ~550px). This is the backdrop behind the fixed
+       * chip bar plus the very top of content, so the chip bar always sits
+       * over the correct product color.
+       *
+       * Each empty-state page ALSO paints its own gradient INSIDE its
+       * scroller — that inner one scrolls up with content so the dark
+       * portion visually shortens as the user scrolls. Both use the same
+       * gradient image, so their top colors match at the chip-bar/content
+       * seam and the two layers read as a single continuous surface. */}
+      {emptyStates ? (
+        <>
+          <div
+            className={`${styles.bgLayer} ${styles.bgLight}`}
+            style={{ opacity: Math.max(0, 1 - darkProgress - cardProgress - cashProgress - billSplitterProgress - savingsProgress) }}
+          />
+          <div
+            className={`${styles.bgLayer} ${styles.bgGradMarketplace} ${styles.bgLayerTallGradient}`}
+            style={{ opacity: darkProgress, transition: easing }}
+          />
+          <div
+            className={`${styles.bgLayer} ${styles.bgGradCard} ${styles.bgLayerTallGradient}`}
+            style={{ opacity: cardProgress, transition: easing }}
+          />
+          <div
+            className={`${styles.bgLayer} ${styles.bgGradCashV4} ${styles.bgLayerTallGradient}`}
+            style={{ opacity: cashProgress, transition: easing }}
+          />
+          <div
+            className={`${styles.bgLayer} ${styles.bgGradBillSplitterV6} ${styles.bgLayerTallGradient}`}
+            style={{ opacity: billSplitterProgress, transition: easing }}
+          />
+          <div
+            className={`${styles.bgLayer} ${styles.bgGradSavings} ${styles.bgLayerTallGradient}`}
+            style={{ opacity: savingsProgress, transition: easing }}
+          />
+        </>
+      ) : gradientTest ? (
         <>
           <div
             className={`${styles.bgLayer} ${styles.bgLight}`}

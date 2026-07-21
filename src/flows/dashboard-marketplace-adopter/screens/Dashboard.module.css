@@ -98,6 +98,7 @@
   background-size: 100% auto;
 }
 
+
 .bgGradMarketplace { background-image: url('../assets/gradients/marketplace.png'); }
 .bgGradCard        { background-image: url('../assets/gradients/card.png'); }
 .bgGradCash        { background-image: url('../assets/gradients/cash.png'); }
@@ -106,6 +107,11 @@
 .bgGradBillSplitter   { background-image: url('../assets/gradients/billsplitter.png'); }
 .bgGradBillSplitterV6 { background-image: url('../assets/gradients/billsplitter-v6.svg'); }
 .bgGradSavings     { background-image: url('../assets/gradients/savings.svg'); }
+
+/* Modifier: extends product gradients ~30% taller. Used by the empty-state
+   scenario so the dark → light fade lingers behind the benefits card
+   instead of dropping to light gray right after the hero. */
+.bgLayerTallGradient { background-size: 100% 780px !important; }
 
 /* ─── Gradient Test v2 backgrounds ───────────────────────────────────────
  *
