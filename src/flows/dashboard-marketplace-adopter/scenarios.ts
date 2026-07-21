@@ -52,6 +52,10 @@ export type DashboardData = {
   gradientTestVersion?: 1 | 2 | 3 | 4 | 5 | 6;
   cashAssist?: { amount: number; balance: number };
   billSplitter?: { percentCovered: number; balance: number };
+  // When true, every product page (Marketplace / Card / Cash Assist / Bill
+  // Splitter / Savings) renders the reusable EmptyStatePage template — user
+  // has not adopted any product yet.
+  emptyStates?: boolean;
 };
 
 const BASE_DATA = {
@@ -209,6 +213,16 @@ export const scenarios: Record<string, Scenario<DashboardData>> = {
       gradientTestVersion: 6,
       cashAssist: { amount: 242, balance: 0 },
       billSplitter: { percentCovered: 100, balance: 0 },
+    },
+  },
+  allProductsEmptyStates: {
+    label: 'All Products Have Empty States',
+    data: {
+      ...BASE_DATA,
+      card: { adopted: false, creditLimit: 1500, currentBalance: 0 },
+      hasOrder: false,
+      hasTracking: false,
+      emptyStates: true,
     },
   },
 };
