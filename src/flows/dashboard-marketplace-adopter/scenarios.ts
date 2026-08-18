@@ -56,6 +56,11 @@ export type DashboardData = {
   // Splitter / Savings) renders the reusable EmptyStatePage template — user
   // has not adopted any product yet.
   emptyStates?: boolean;
+  // When true, the Home tab's "Credit Building Progress" section renders the
+  // Perpay+ empty-state card, whose credit-score-history graph animates in on
+  // app load (area draws L→R, endpoint dot + trending badge pop, CTA glows).
+  // Rides on the Gradient Test v6 background (gradientTest + version 6).
+  perpayPlus?: boolean;
 };
 
 const BASE_DATA = {
@@ -213,6 +218,22 @@ export const scenarios: Record<string, Scenario<DashboardData>> = {
       gradientTestVersion: 6,
       cashAssist: { amount: 242, balance: 0 },
       billSplitter: { percentCovered: 100, balance: 0 },
+    },
+  },
+  perpayPlusEmptyState: {
+    label: 'Perpay+ Empty State',
+    data: {
+      ...BASE_DATA,
+      card: { adopted: true, creditLimit: 1500, currentBalance: 0 },
+      hasOrder: true,
+      hasTracking: true,
+      // Inherit the Gradient Test v6 background styling / gradients.
+      gradientTest: true,
+      gradientTestVersion: 6,
+      cashAssist: { amount: 242, balance: 0 },
+      billSplitter: { percentCovered: 100, balance: 0 },
+      // Swap the Home tab credit-building card for the animated Perpay+ card.
+      perpayPlus: true,
     },
   },
   allProductsEmptyStates: {
