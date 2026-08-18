@@ -170,6 +170,132 @@ function CreditBuildingGraph() {
   );
 }
 
+// ─── Perpay+ empty-state card (animated credit-score-history graph) ──────────
+//
+// Same art as CreditBuildingGraph, but split into three stacked, viewBox-shared
+// SVG layers so it stays responsive at any width AND each piece can animate:
+//   1. gridlines + y-axis pills — static, visible from the start
+//   2. the rising gray area — revealed left→right via a clip-path wipe
+//   3. endpoint dot + trending badge — spring "pop" once the area finishes
+// All three share viewBox "0 0 311 155" and fill their container, so they line
+// up pixel-for-pixel regardless of screen size (no absolute px anywhere).
+
+function PerpayGraphGridlines() {
+  return (
+    <svg viewBox="0 0 311 155" fill="none" className={styles.ppGraphSvg} aria-hidden>
+      <line y1="67.601" x2="282" y2="67.601" stroke="#E4E9F0" strokeDasharray="4 4" />
+      <line y1="111.101" x2="282" y2="111.101" stroke="#E4E9F0" strokeDasharray="4 4" />
+      <line y1="154.601" x2="282" y2="154.601" stroke="#E4E9F0" strokeDasharray="4 4" />
+      <rect x="291" y="63.101" width="20" height="7" rx="3.5" fill="#F1F3F5" />
+      <rect x="291" y="107.101" width="20" height="7" rx="3.5" fill="#F1F3F5" />
+      <rect x="291" y="148.101" width="20" height="7" rx="3.5" fill="#F1F3F5" />
+    </svg>
+  );
+}
+
+function PerpayGraphArea() {
+  return (
+    <svg viewBox="0 0 311 155" fill="none" className={styles.ppGraphSvg} aria-hidden>
+      <path
+        d="M21 128.101C12.976 128.302 8.177 127.967 5.087 127.791C1.958 127.612 0 130.112 0 133.246L0 152.601C0 153.706 0.895 154.601 2 154.601H281C282.105 154.601 283 153.706 283 152.601V59.65C283 57.838 280.693 56.877 279.263 57.99C258.752 73.958 215.805 71.58 198 73.101C179.026 74.722 127.436 105.131 117 106.101C97.077 107.954 87.795 120.521 65.5 132.101C49.392 140.468 39.501 127.638 21 128.101Z"
+        fill="#E9EEF5"
+      />
+    </svg>
+  );
+}
+
+function PerpayGraphOverlay() {
+  return (
+    <svg viewBox="0 0 311 155" fill="none" className={styles.ppGraphSvg} aria-hidden>
+      <defs>
+        <filter id="ppBadgeShadow" x="161.6" y="-20.799" width="151.8" height="104.8" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+          <feOffset dy="9.5" />
+          <feGaussianBlur stdDeviation="15.2" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0.906 0 0 0 0 0.922 0 0 0 0 0.933 0 0 0 0.5 0" />
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+        </filter>
+      </defs>
+
+      {/* endpoint dot — pops first */}
+      <g className={styles.ppDot}>
+        <circle cx="282" cy="57.101" r="6" fill="#BAC7D7" />
+        <circle cx="282" cy="57.101" r="8" stroke="white" strokeOpacity="0.81" strokeWidth="4" />
+      </g>
+
+      {/* trending badge — springs up just after the dot */}
+      <g className={styles.ppBadge}>
+        <g filter="url(#ppBadgeShadow)">
+          <path d="M192 12.101C192 5.474 197.373 0.101 204 0.101L271 0.101C277.627 0.101 283 5.474 283 12.101V44.101H204C197.373 44.101 192 38.728 192 32.101V12.101Z" fill="white" />
+          <path d="M204 0.601H271C277.351 0.601 282.5 5.75 282.5 12.101V43.601H204C197.649 43.601 192.5 38.452 192.5 32.101V12.101C192.5 5.75 197.649 0.601 204 0.601Z" stroke="#D9E1EB" />
+        </g>
+        <path d="M262 30.624L265.849 27.016L268.576 29.401L271.643 26.334" stroke="#049B82" strokeWidth="1.601" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M269.582 25.101H272.864C272.937 25.101 272.995 25.164 272.988 25.237L272.687 28.519" stroke="#049B82" strokeWidth="1.554" strokeLinecap="round" />
+        <rect x="262" y="14.101" width="10" height="7" rx="3.5" fill="#F1F5F8" />
+        <rect x="201" y="12.101" width="54" height="20" rx="4" fill="#F1F5F8" />
+      </g>
+    </svg>
+  );
+}
+
+function PerpayPlusCard() {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [play, setPlay] = useState(false);
+
+  // Play ONCE, when the card first scrolls into view — then a short 0.25s
+  // beat so the sequence is watchable rather than flashing by. Never replays.
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          io.disconnect();
+          timer = setTimeout(() => setPlay(true), 250);
+        }
+      },
+      { threshold: 0.4 }
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      clearTimeout(timer);
+    };
+  }, []);
+
+  return (
+    <div className={styles.section}>
+      <p className={styles.sectionLabel}>Credit Building Progress</p>
+      <div className={styles.ppCard} ref={cardRef}>
+        {/* Header text is overlaid on the top-left of the graph so the card
+            stays short — the dashed skeleton sits right under the Perpay+
+            header and the badge/dot pop lands ~level with it. */}
+        <div className={styles.ppGraphWrap}>
+          <div className={styles.ppCardText}>
+            <p className={styles.ppCardTitle}>Perpay+</p>
+            <p className={styles.ppCardSub}>Nothing is being reported</p>
+          </div>
+          <div className={styles.ppGraph} data-play={play}>
+            <PerpayGraphGridlines />
+            <div className={styles.ppGraphReveal}>
+              <PerpayGraphArea />
+            </div>
+            <PerpayGraphOverlay />
+          </div>
+        </div>
+
+        <button className={`${styles.ppCta} ${play ? styles.ppCtaGlow : ''}`}>
+          <span className={styles.ppCtaBase}>Get started</span>
+          <span className={styles.ppCtaShine} aria-hidden="true">Get started</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 const CHIPS = [
   { key: 'all', label: 'All' },
   { key: 'marketplace', label: 'Marketplace' },
@@ -388,7 +514,7 @@ function BankPaymentScreen({ amount, onBack }: { amount: number; onBack: () => v
 
 // ─── All page content ────────────────────────────────────────────────────────
 
-function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplace, onTrackOrder, onGoToCard, onGoToCash, onGoToBillSplitter, onBankPayment }: {
+function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplace, onTrackOrder, onGoToCard, onGoToCash, onGoToBillSplitter, onBankPayment, perpayPlus }: {
   data: DashboardData;
   cardAdopted: boolean;
   hasOrder: boolean;
@@ -399,6 +525,7 @@ function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplac
   onGoToCash: () => void;
   onGoToBillSplitter: () => void;
   onBankPayment: () => void;
+  perpayPlus?: boolean;
 }) {
   const isOverlimit = data.card.isOverlimit ?? false;
   const cardAvailable = data.card.creditLimit - data.card.currentBalance;
@@ -553,21 +680,25 @@ function AllContent({ data, cardAdopted, hasOrder, hasTracking, onGoToMarketplac
       </div>
 
       {/* ── Credit Building Progress ── */}
-      <div className={styles.section}>
-        <p className={styles.sectionLabel}>Credit Building Progress</p>
-        <div className={styles.creditCard}>
-          <div className={styles.creditCardBody}>
-            <div className={styles.creditGraphArea}>
-              <CreditBuildingGraph />
+      {perpayPlus ? (
+        <PerpayPlusCard />
+      ) : (
+        <div className={styles.section}>
+          <p className={styles.sectionLabel}>Credit Building Progress</p>
+          <div className={styles.creditCard}>
+            <div className={styles.creditCardBody}>
+              <div className={styles.creditGraphArea}>
+                <CreditBuildingGraph />
+              </div>
+              <div className={styles.creditCardText}>
+                <p className={styles.creditTitle}>Credit Building</p>
+                <p className={styles.creditSubtitle}>Nothing is being reported</p>
+              </div>
             </div>
-            <div className={styles.creditCardText}>
-              <p className={styles.creditTitle}>Credit Building</p>
-              <p className={styles.creditSubtitle}>Nothing is being reported</p>
-            </div>
+            <div className={styles.creditGetStarted}>Get started</div>
           </div>
-          <div className={styles.creditGetStarted}>Get started</div>
         </div>
-      </div>
+      )}
 
       {/* ── Discover more ── */}
       <div className={styles.section}>
@@ -1511,6 +1642,7 @@ export default function Dashboard() {
           onGoToCash={() => setPage(3)}
           onGoToBillSplitter={() => setPage(4)}
           onBankPayment={() => setShowBankPayment(true)}
+          perpayPlus={data.perpayPlus}
         />,
         <EmptyStatePage config={{ ...marketplaceEmptyState, lightTheme: false }} isActive={!isDragging && page === 1} />,
         <EmptyStatePage config={{ ...cardEmptyState, lightTheme: false }} isActive={!isDragging && page === 2} />,
@@ -1531,6 +1663,7 @@ export default function Dashboard() {
           onGoToCash={() => setPage(3)}
           onGoToBillSplitter={() => setPage(4)}
           onBankPayment={() => setShowBankPayment(true)}
+          perpayPlus={data.perpayPlus}
         />,
         <GradientTestPage
           topLabel="Available Spending Limit"
@@ -1586,6 +1719,7 @@ export default function Dashboard() {
           onGoToCash={() => setPage(3)}
           onGoToBillSplitter={() => setPage(4)}
           onBankPayment={() => setShowBankPayment(true)}
+          perpayPlus={data.perpayPlus}
         />,
         <MarketplaceContent data={data} hasOrder={data.hasOrder} onTrackOrder={() => setShowOrderTracking(true)} />,
         <CardContent

@@ -845,6 +845,170 @@
   cursor: pointer;
 }
 
+/* ─── Perpay+ empty-state card (animated) ─────────────────────────────────
+ * Compact card: the Perpay+ header is overlaid on the top-left of the graph
+ * (not stacked above it), so the card stays short and the dashed skeleton
+ * sits right under the header — the badge/dot pop lands ~level with it.
+ * Then a full-width "Get started" CTA whose text does a single glow pass. */
+.ppCard {
+  background: white;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08), 0px 1px 4px rgba(50, 50, 93, 0.06);
+}
+
+/* Aspect-locked wrapper: keeps the graph's native 311:155 ratio so every
+ * SVG layer lines up at any width, and gives the overlaid header a home. */
+.ppGraphWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 311 / 155;
+  margin-bottom: 12px;
+}
+
+.ppCardText {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ppCardTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #113355;
+  margin: 0 0 3px;
+  letter-spacing: -0.01em;
+}
+
+.ppCardSub {
+  font-size: 13px;
+  color: #7e8ba0;
+  margin: 0;
+}
+
+/* Three viewBox-shared SVG layers, stacked to fill the wrapper. */
+.ppGraph {
+  position: absolute;
+  inset: 0;
+}
+
+.ppGraphSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* Area layer fills in under the drawing line via a left→right clip-path wipe.
+ * Percentage-based inset = fully responsive. Eased (not linear) and slow, so
+ * it reads as the graph organically building up rather than sliding in. */
+.ppGraphReveal {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1600ms cubic-bezier(0.45, 0.05, 0.25, 1);
+}
+.ppGraph[data-play='true'] .ppGraphReveal {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Endpoint dot — springs in as the area reaches the end. */
+.ppDot {
+  opacity: 0;
+  transform: scale(0.2);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 200ms ease-out;
+  transition-delay: 1440ms;
+}
+.ppGraph[data-play='true'] .ppDot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Trending badge — pops up from the line just after the dot lands. */
+.ppBadge {
+  opacity: 0;
+  transform: translateY(8px) scale(0.7);
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  transition: transform 480ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 240ms ease-out;
+  transition-delay: 1620ms;
+}
+.ppGraph[data-play='true'] .ppBadge {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* CTA: the "Get started" text is ALWAYS solid white (base span). A duplicate
+ * span sits exactly on top and carries only a narrow bright band clipped to
+ * the letters — a single glow highlight sweeps across, then fades. The base
+ * is untouched, so the label is fully legible before, during, and after. */
+.ppCta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+  background: #2e71ea;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.ppCtaBase {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+.ppCtaShine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 42%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 255, 255, 0) 58%
+  );
+  background-size: 250% 100%;
+  background-position: 130% 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
+  opacity: 0;
+  pointer-events: none;
+}
+/* Sweep starts a beat after the graph begins and lands as the graph settles. */
+.ppCtaGlow .ppCtaShine {
+  animation: ppTextShine 1150ms ease-in-out 600ms 1 both;
+}
+
+@keyframes ppTextShine {
+  0%   { background-position: 130% 0; opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { background-position: -60% 0; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ppGraphReveal { clip-path: inset(0 0 0 0); transition: none; }
+  .ppDot, .ppBadge { opacity: 1; transform: none; transition: none; }
+  .ppCtaShine { animation: none; opacity: 0; }
+}
+
 /* ─── Discover More ───────────────────────────────────────────────────── */
 .discoverScroll {
   display: flex;
